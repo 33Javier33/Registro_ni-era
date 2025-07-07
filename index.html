@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Niñera</title>
+    <!-- Enlace a Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden; 
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 { /* Ajuste de margen para los títulos de sección */
+            color: #0056b3;
+            text-align: center;
+            margin-top: 20px; /* Reducido para acercar secciones */
+            margin-bottom: 10px; 
+        }
+        .form-container { /* Reducido el margen inferior */
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 0 auto 20px auto; /* Reducido de 30px a 20px */
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%; 
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input[type="date"],
+        .form-group input[type="number"],
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .form-group input[type="number"]::placeholder {
+            color: #aaa;
+        }
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+            width: 100%; 
+        }
+        .form-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        button {
+            padding: 8px 15px; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; 
+            transition: background-color 0.3s ease;
+        }
+        .add-button {
+            background-color: #28a745;
+            width: 100%; 
+            margin-bottom: 10px; 
+        }
+        .add-button:hover {
+            background-color: #218838;
+        }
+        .form-buttons-bottom {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-around; 
+            width: 100%; 
+            gap: 10px; 
+        }
+        .form-buttons-bottom button {
+            flex: 1; 
+            min-width: 120px; 
+            margin: 0; 
+            padding: 10px 15px; 
+            font-size: 14px;
+        }
+
+        .clear-button {
+            background-color: #dc3545;
+        }
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+        .update-button {
+            background-color: #007bff;
+        }
+        .update-button:hover {
+            background-color: #0056b3;
+        }
+        .mark-paid-button { 
+            background-color: #17a2b8;
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 15px; 
+            display: block; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mark-paid-button:hover {
+            background-color: #138496;
+        }
+        .discount-button { 
+            background-color: #6f42c1; 
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .discount-button:hover {
+            background-color: #5a2eac;
+        }
+        .edit-totals-button {
+            background-color: #ffc107; 
+            color: #333; 
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .edit-totals-button:hover {
+            background-color: #e0a800;
+        }
+        .undo-button {
+            background-color: #6c757d; 
+        }
+        .undo-button:hover {
+            background-color: #5a6268;
+        }
+        .undo-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .nav-button {
+            background-color: #007bff;
+        }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+        .back-to-top-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            border-radius: 50%; 
+            width: 50px; 
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: background-color 0.3s, opacity 0.3s;
+            z-index: 999; 
+            opacity: 0; 
+            pointer-events: none; 
+        }
+        .back-to-top-button.show {
+            opacity: 1;
+            pointer-events: auto; 
+        }
+        .back-to-top-button:hover {
+            background-color: #555;
+        }
+
+
+        table {
+            width: 95%; 
+            max-width: 900px; 
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+            overflow-x: auto; 
+            display: block; 
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px; 
+            text-align: left;
+            white-space: nowrap; 
+        }
+        th:nth-child(1), td:nth-child(1) { width: 3%; text-align: center;} 
+        th:nth-child(2), td:nth-child(2) { width: 18%; } 
+        th:nth-child(3), td:nth-child(3) { width: 18%; } 
+        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: center; } 
+        th:nth-child(5), td:nth-child(5) { width: 25%; text-align: center; } 
+        th:nth-child(6), td:nth-child(6) { width: 21%; text-align: center; } 
+
+
+        th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        tfoot {
+            font-weight: bold;
+            background-color: #e2e6ea;
+        }
+        tfoot td {
+            vertical-align: middle; 
+        }
+        .total-info-cell { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 10px; 
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap; 
+            justify-content: center; 
+        }
+        .action-buttons .icon-btn {
+            background: none; 
+            border: none; 
+            color: #555; 
+            font-size: 1.1em; 
+            padding: 3px; 
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+        .action-buttons .icon-btn:hover {
+            color: #007bff; 
+        }
+        .action-buttons .edit-btn .fa-pencil-alt {
+            color: #ffc107; 
+        }
+        .action-buttons .delete-btn .fa-trash-alt {
+            color: #dc3545; 
+        }
+        .action-buttons .note-btn .fa-sticky-note {
+            color: #4CAF50; 
+        }
+        .action-buttons .note-btn:hover .fa-sticky-note {
+            color: #388E3C;
+        }
+        .table-check-icon {
+            color: #28a745; 
+            font-size: 1.1em; 
+        }
+
+
+        .pendiente {
+            background-color: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+        }
+        .pendiente td {
+            border-color: #ffeeba;
+        }
+        .select-pending-checkbox { 
+            width: 16px; 
+            height: 16px; 
+            cursor: pointer;
+            vertical-align: middle; 
+        }
+        #noteContentInput {
+            width: calc(100% - 22px); 
+            height: 150px; 
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box; 
+            resize: vertical; 
+        }
+
+
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            padding: 8px;
+            text-align: center;
+        }
+        #calendar .day-name {
+            font-weight: bold;
+            background-color: #e9ecef;
+            padding: 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        #calendar .day {
+            padding: 8px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+            background-color: #f8f9fa;
+            font-size: 0.9em;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer; 
+            transition: background-color 0.2s ease;
+        }
+        #calendar .day:hover {
+            background-color: #e9ecef;
+        }
+        #calendar .empty {
+            background-color: #f0f0f0;
+            visibility: hidden;
+        }
+        #calendar .worked-day {
+            background-color: #d4edda;
+            font-weight: bold;
+            border-color: #28a745;
+            color: #155724;
+        }
+        #calendar .pending-day {
+            background-color: #ffeeba;
+            font-weight: bold;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        #calendar .day-with-note {
+            background-color: #d1ecf1; 
+            border-color: #007bff;
+            color: #0c5460;
+            font-weight: bold;
+        }
+        #calendar .day-with-note.pending-day { 
+            background-color: #f0e68c; 
+            border-color: #daa520;
+            color: #8B4513;
+        }
+        #calendar .day-with-note.worked-day { 
+            background-color: #a2d9ce; 
+            border-color: #20b2aa;
+            color: #006400;
+        }
+
+
+        #calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #calendar-header button {
+            background-color: #007bff;
+            padding: 7px 12px;
+            font-size: 13px;
+        }
+        #calendar-header button:hover {
+            background-color: #0056b3;
+        }
+        #currentMonthYear {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .calendar-container {
+            overflow: hidden; 
+            max-height: 0; 
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease-out; 
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0; 
+            margin: 0 auto; /* Eliminar margen inferior si se va a ocultar */
+        }
+        .calendar-container.visible {
+            max-height: 500px; 
+            padding-top: 25px;
+            padding-bottom: 25px;
+            opacity: 1; 
+        }
+        .calendar-toggle-container {
+            background-color: #fff;
+            padding: 15px; 
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 0 auto 5px auto; /* Reducido a 5px */
+            max-width: 500px;
+            display: flex;
+            justify-content: center; 
+        }
+        .calendar-toggle-button {
+            background-color: #17a2b8;
+            width: fit-content; 
+            padding: 10px 20px;
+            font-size: 15px;
+        }
+        .calendar-toggle-button:hover {
+            background-color: #138496;
+        }
+
+        /* --- Estilos de Modales (general) --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%; 
+            max-width: 400px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .modal-content input[type="number"] {
+            width: calc(100% - 22px); 
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .modal-buttons button {
+            flex: 1; 
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-close-btn {
+            background-color: #ccc;
+            color: #333;
+        }
+        .modal-close-btn:hover {
+            background-color: #bbb;
+        }
+
+        .modal-confirm-btn {
+            background-color: #28a745;
+        }
+        .modal-confirm-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Estilos para el contenedor de filtro */
+        .filter-toggle-container {
+            background-color: #fff;
+            padding: 15px; 
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 0 auto 5px auto; /* Reducido a 5px */
+            max-width: 500px;
+            display: flex;
+            justify-content: center; 
+        }
+        .filter-toggle-button {
+            background-color: #17a2b8;
+            width: fit-content;
+            padding: 10px 20px;
+            font-size: 15px;
+        }
+        .filter-toggle-button:hover {
+            background-color: #138496;
+        }
+
+        .filter-content-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end; 
+            gap: 15px; 
+            max-width: 900px; 
+            margin: 0 auto 20px auto; 
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            
+            overflow: hidden; 
+            max-height: 0; 
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        .filter-content-container.visible {
+            max-height: 200px; 
+            padding-top: 20px;
+            padding-bottom: 20px;
+            opacity: 1;
+        }
+
+        .filter-content-container .form-group {
+            flex: 1 1 calc(50% - 15px); 
+            min-width: 180px; 
+            max-width: 250px; 
+            display: flex;
+            flex-direction: column;
+            gap: 5px; 
+        }
+        .filter-content-container .form-group label {
+            margin-bottom: 0; 
+        }
+        .filter-content-container button {
+            flex: 0 0 auto; 
+            padding: 10px 20px; 
+            font-size: 15px; 
+            margin-top: 0; 
+        }
+
+        /* Media query para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .filter-content-container .form-group {
+                flex: 1 1 100%; 
+                max-width: 100%;
+            }
+            .filter-content-container button {
+                width: 100%; 
+                margin-top: 10px; 
+            }
+        }
+        .filtered-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Registro de Pagos de Niñera</h1>
+
+    <div class="form-container">
+        <div class="form-group">
+            <label for="fechaTrabajo">Fecha de Trabajo:</label>
+            <input type="date" id="fechaTrabajo" required>
+        </div>
+        <div class="form-group">
+            <label for="montoPagado">Monto ($):</label>
+            <input type="number" id="montoPagado" placeholder="Ej: 25000" required min="0">
+        </div>
+        <div class="form-checkbox">
+            <input type="checkbox" id="esPagoCompleto" checked>
+            <label for="esPagoCompleto">Marcar como Pago Completo (Si es pendiente, ingresa el monto adeudado)</label>
+        </div>
+        <button id="agregarRegistro" class="add-button">Agregar Registro</button>
+        <div class="form-buttons-bottom">
+            <button id="limpiarHistorial" class="clear-button">Limpiar Historial</button>
+            <button id="undoBtn" class="undo-button" disabled>Deshacer</button> 
+            <button id="goToHistorialBtn" class="nav-button">Ir al Historial</button> 
+        </div>
+    </div>
+
+    ---
+
+    <h2>Calendario de Días Trabajados</h2>
+    <div class="calendar-toggle-container">
+        <button id="toggleCalendarBtn" class="calendar-toggle-button">Mostrar Calendario</button>
+    </div>
+    <div class="calendar-container" id="calendarSection">
+        <div id="calendar-header">
+            <button id="prevMonth">← Anterior</button>
+            <span id="currentMonthYear"></span>
+            <button id="nextMonth">Siguiente →</button>
+        </div>
+        <div id="calendar">
+            </div>
+    </div>
+
+    ---
+
+    <div id="historialSection"> 
+        <h2>Filtro de Registros</h2>
+        <div class="filter-toggle-container">
+            <button id="toggleFilterBtn" class="filter-toggle-button">Mostrar Filtro</button>
+        </div>
+        <div class="filter-content-container" id="filterContentSection">
+            <div class="form-group">
+                <label for="filterStartDate">Desde:</label>
+                <input type="date" id="filterStartDate">
+            </div>
+            <div class="form-group">
+                <label for="filterEndDate">Hasta:</label>
+                <input type="date" id="filterEndDate">
+            </div>
+            <button id="applyFilterBtn" class="apply-filter-button">Aplicar Filtro</button>
+            <button id="clearFilterBtn" class="clear-filter-button">Limpiar Filtro</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sel.</th> 
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                    <th>Nota</th> 
+                </tr>
+            </thead>
+            <tbody id="tablaRegistros">
+                </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Total Pagado:<span id="totalPagadoFilterLabel" class="filtered-label"></span></td>
+                    <td colspan="3">
+                        <div class="total-info-cell">
+                            <span id="totalPagado">0</span> 
+                            <button id="editTotalsBtn" class="edit-totals-button">Editar Totales</button> 
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total Pendiente:<span id="totalPendienteFilterLabel" class="filtered-label"></span></td>
+                    <td colspan="3"> 
+                        <div class="total-info-cell">
+                            <span id="totalPendiente">0</span>
+                            <button id="aplicarDescuentoBtn" class="discount-button">Aplicar Descuento</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <button id="marcarSeleccionadosPagados" class="mark-paid-button" style="display: none;">Marcar Seleccionados como Pagados</button>
+    </div> 
+
+    <!-- Modal para Aplicar Descuento Global -->
+    <div id="discountModal" class="modal">
+        <div class="modal-content">
+            <h3>Aplicar Abono/Descuento Global</h3>
+            <p>Monto Total Pendiente: <span id="modalTotalPendienteActual"></span></p>
+            <label for="montoAbonoDescuento">Monto a Abonar/Descontar ($):</label>
+            <input type="number" id="montoAbonoDescuento" placeholder="Ej: 5000" min="0">
+            <div class="modal-buttons">
+                <button id="modalDiscountCancelar" class="modal-close-btn">Cancelar</button>
+                <button id="modalDiscountConfirmar" class="modal-confirm-btn">Aplicar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nuevo Modal para Editar Totales -->
+    <div id="editTotalsModal" class="modal">
+        <div class="modal-content">
+            <h3>Editar Totales Manualmente</h3>
+            <div class="form-group">
+                <label for="editTotalPagado">Total Pagado:</label>
+                <input type="number" id="editTotalPagado" min="0">
+            </div>
+            <div class="form-group">
+                <label for="editTotalPendiente">Total Pendiente:</label>
+                <input type="number" id="editTotalPendiente" min="0">
+            </div>
+            <div class="modal-buttons">
+                <button id="modalEditTotalsCancelar" class="modal-close-btn">Cancelar</button>
+                <button id="modalEditTotalsConfirmar" class="modal-confirm-btn">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nuevo Modal para Ver/Editar Nota -->
+    <div id="noteDetailModal" class="modal">
+        <div class="modal-content">
+            <h3>Nota del Registro</h3>
+            <textarea id="noteContentInput" placeholder="Escribe tu nota aquí..."></textarea>
+            <div class="modal-buttons">
+                <button id="modalNoteCancelar" class="modal-close-btn">Cancelar</button>
+                <button id="modalNoteGuardar" class="modal-confirm-btn">Guardar Nota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Alert/Confirmation Modal -->
+    <div id="genericMessageModal" class="modal">
+        <div class="modal-content">
+            <h3 id="genericMessageTitle"></h3>
+            <p id="genericMessageText"></p>
+            <div class="modal-buttons">
+                <button id="genericMessageCancelBtn" class="modal-close-btn" style="display: none;">Cancelar</button>
+                <button id="genericMessageConfirmBtn" class="modal-confirm-btn">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón "Volver al Inicio" -->
+    <button id="backToTopBtn" class="back-to-top-button">↑</button>
+
+
+    <script>
+        const fechaInput = document.getElementById('fechaTrabajo');
+        const montoInput = document.getElementById('montoPagado');
+        const esPagoCompletoCheckbox = document.getElementById('esPagoCompleto');
+        const agregarBtn = document.getElementById('agregarRegistro');
+        const limpiarBtn = document.getElementById('limpiarHistorial');
+        const undoBtn = document.getElementById('undoBtn'); 
+        const goToHistorialBtn = document.getElementById('goToHistorialBtn'); 
+        const tablaRegistros = document.getElementById('tablaRegistros');
+        const totalPagadoSpan = document.getElementById('totalPagado'); 
+        const totalPendienteSpan = document.getElementById('totalPendiente');
+        const marcarSeleccionadosPagadosBtn = document.getElementById('marcarSeleccionadosPagados');
+
+        const calendarContainer = document.getElementById('calendar');
+        const calendarSection = document.getElementById('calendarSection');
+        const toggleCalendarBtn = document.getElementById('toggleCalendarBtn');
+        const currentMonthYearSpan = document.getElementById('currentMonthYear');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+
+        const aplicarDescuentoBtn = document.getElementById('aplicarDescuentoBtn');
+        const discountModal = document.getElementById('discountModal');
+        const modalTotalPendienteActualSpan = document.getElementById('modalTotalPendienteActual');
+        const montoAbonoDescuentoInput = document.getElementById('montoAbonoDescuento');
+        const modalDiscountCancelarBtn = document.getElementById('modalDiscountCancelar');
+        const modalDiscountConfirmarBtn = document.getElementById('modalDiscountConfirmar');
+
+        const editTotalsBtn = document.getElementById('editTotalsBtn');
+        const editTotalsModal = document.getElementById('editTotalsModal');
+        const editTotalPagadoInput = document.getElementById('editTotalPagado');
+        const editTotalPendienteInput = document.getElementById('editTotalPendiente');
+        const modalEditTotalsCancelarBtn = document.getElementById('modalEditTotalsCancelar');
+        const modalEditTotalsConfirmarBtn = document.getElementById('modalEditTotalsConfirmar');
+
+        const noteDetailModal = document.getElementById('noteDetailModal');
+        const noteContentInput = document.getElementById('noteContentInput');
+        const modalNoteCancelarBtn = document.getElementById('modalNoteCancelar');
+        const modalNoteGuardarBtn = document.getElementById('modalNoteGuardar');
+        let currentNoteIndex = -1; 
+
+        let selectedCheckboxesForMarkingPaid = []; 
+
+        const filterStartDateInput = document.getElementById('filterStartDate');
+        const filterEndDateInput = document.getElementById('filterEndDate');
+        const applyFilterBtn = document.getElementById('applyFilterBtn');
+        const clearFilterBtn = document.getElementById('clearFilterBtn');
+        const totalPagadoFilterLabel = document.getElementById('totalPagadoFilterLabel');
+        const totalPendienteFilterLabel = document.getElementById('totalPendienteFilterLabel');
+
+        const toggleFilterBtn = document.getElementById('toggleFilterBtn'); 
+        const filterContentSection = document.getElementById('filterContentSection'); 
+
+        const backToTopBtn = document.getElementById('backToTopBtn'); 
+
+        // Global variables for generic modal callback
+        let genericMessageCallback = null;
+
+        const KEY_LOCAL_STORAGE = 'registrosNiñera';
+        const KEY_TOTAL_PENDIENTE_AJUSTADO = 'totalPendienteAjustado';
+        const KEY_TOTAL_PAGADO_AJUSTADO = 'totalPagadoAjustado'; 
+        const KEY_CALENDAR_VISIBLE = 'calendarVisible'; 
+        const KEY_FILTER_VISIBLE = 'filterVisible'; 
+        
+        let registros = [];
+        let totalPendienteAjustado = 0; 
+        let totalPagadoAjustado = 0; 
+        let currentCalendarDate = new Date();
+
+        // --- Variables para el Historial (Deshacer) ---
+        let history = [];
+        let historyPointer = -1;
+        const MAX_HISTORY_SIZE = 20; 
+
+        // --- Funciones de Utilidad ---
+
+        function formatearFecha(fechaStr) {
+            const [year, month, day] = fechaStr.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        function formatearMonto(monto) {
+            return parseFloat(monto).toLocaleString('es-CL', {
+                style: 'currency',
+                currency: 'CLP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        // --- Funciones de Gestión de Historial (Deshacer) ---
+
+        function saveState() {
+            if (historyPointer < history.length - 1) {
+                history = history.slice(0, historyPointer + 1);
+            }
+
+            const currentState = {
+                registros: JSON.parse(JSON.stringify(registros)),
+                totalPendienteAjustado: totalPendienteAjustado,
+                totalPagadoAjustado: totalPagadoAjustado 
+            };
+            history.push(currentState);
+            historyPointer++;
+
+            if (history.length > MAX_HISTORY_SIZE) {
+                history.shift(); 
+                historyPointer--;
+            }
+            updateUndoButtonState();
+        }
+
+        function loadState(state) {
+            registros = JSON.parse(JSON.stringify(state.registros));
+            totalPendienteAjustado = state.totalPendienteAjustado;
+            totalPagadoAjustado = state.totalPagadoAjustado; 
+            
+            applyCurrentFilterAndLoadRecords(); 
+            updateUndoButtonState();
+        }
+
+        function undoAction() {
+            if (historyPointer > 0) {
+                historyPointer--;
+                loadState(history[historyPointer]);
+            }
+        }
+
+        function updateUndoButtonState() {
+            undoBtn.disabled = (historyPointer <= 0);
+        }
+
+        // --- Funciones de Gestión de Registros y Totales ---
+
+        function calcularSumaRegistrosPendientesOriginal(recordsToSum) {
+            let total = 0;
+            recordsToSum.forEach(registro => {
+                if (registro.tipo === 'pendiente') {
+                    total += parseFloat(registro.monto);
+                }
+            });
+            return total;
+        }
+
+        function calcularSumaPagosCompletosDirectos(recordsToSum) {
+            let total = 0;
+            recordsToSum.forEach(registro => {
+                if (registro.tipo === 'completo') {
+                    total += parseFloat(registro.monto);
+                }
+            });
+            return total;
+        }
+
+        function cargarRegistros() {
+            if (history.length === 0 && localStorage.getItem(KEY_LOCAL_STORAGE)) {
+                registros = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE)) || [];
+                totalPendienteAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PENDIENTE_AJUSTADO)) || 0;
+                totalPagadoAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PAGADO_AJUSTADO)) || 0; 
+                saveState(); 
+            } else if (history.length === 0) { 
+                registros = [];
+                totalPendienteAjustado = 0;
+                totalPagadoAjustado = 0;
+                saveState(); 
+            }
+            applyCurrentFilterAndLoadRecords(); 
+        }
+
+        function applyCurrentFilterAndLoadRecords() {
+            const startDate = filterStartDateInput.value ? new Date(filterStartDateInput.value + 'T00:00:00') : null;
+            const endDate = filterEndDateInput.value ? new Date(filterEndDateInput.value + 'T23:59:59') : null;
+
+            let filteredRegistros = registros;
+            let isFilterActive = false;
+
+            if (startDate && endDate) {
+                filteredRegistros = registros.filter(registro => {
+                    const recordDate = new Date(registro.fecha + 'T00:00:00');
+                    return recordDate >= startDate && recordDate <= endDate;
+                });
+                isFilterActive = true;
+            } else if (startDate) {
+                filteredRegistros = registros.filter(registro => {
+                    const recordDate = new Date(registro.fecha + 'T00:00:00');
+                    return recordDate >= startDate;
+                });
+                isFilterActive = true;
+            } else if (endDate) {
+                filteredRegistros = registros.filter(registro => {
+                    const recordDate = new Date(registro.fecha + 'T00:00:00');
+                    return recordDate <= endDate;
+                });
+                isFilterActive = true;
+            }
+
+            tablaRegistros.innerHTML = '';
+            let hayPendientesEnTabla = false;
+
+            filteredRegistros.forEach((registro, index) => {
+                const fila = document.createElement('tr');
+                const celdaSeleccionar = document.createElement('td');
+                const celdaFecha = document.createElement('td');
+                const celdaMonto = document.createElement('td');
+                const celdaTipo = document.createElement('td');
+                const celdaAcciones = document.createElement('td');
+                const celdaNota = document.createElement('td'); 
+                const divAcciones = document.createElement('div');
+                divAcciones.classList.add('action-buttons');
+
+                celdaFecha.textContent = formatearFecha(registro.fecha);
+                celdaMonto.textContent = formatearMonto(registro.monto);
+
+                if (registro.tipo === 'completo') {
+                    celdaTipo.innerHTML = '<i class="fas fa-check table-check-icon"></i>'; 
+                    celdaSeleccionar.innerHTML = ''; 
+                } else {
+                    celdaTipo.textContent = 'Pendiente';
+                    fila.classList.add('pendiente');
+                    hayPendientesEnTabla = true;
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.classList.add('select-pending-checkbox');
+                    checkbox.dataset.index = registros.indexOf(registro); 
+                    checkbox.checked = registro.isCheckedForSelection || false; 
+                    celdaSeleccionar.appendChild(checkbox);
+                }
+
+                const btnEditar = document.createElement('button');
+                btnEditar.classList.add('edit-btn', 'icon-btn');
+                btnEditar.dataset.index = registros.indexOf(registro); 
+                btnEditar.innerHTML = '<i class="fas fa-pencil-alt"></i>'; 
+
+                const btnBorrar = document.createElement('button');
+                btnBorrar.classList.add('delete-btn', 'icon-btn');
+                btnBorrar.dataset.index = registros.indexOf(registro); 
+                btnBorrar.innerHTML = '<i class="fas fa-trash-alt"></i>'; 
+
+                divAcciones.appendChild(btnEditar);
+                divAcciones.appendChild(btnBorrar);
+
+                celdaAcciones.appendChild(divAcciones);
+
+                const btnNota = document.createElement('button');
+                btnNota.classList.add('note-btn', 'icon-btn');
+                btnNota.dataset.index = registros.indexOf(registro); 
+                btnNota.innerHTML = '<i class="fas fa-sticky-note"></i>'; 
+                btnNota.title = 'Ver/Editar Nota'; 
+                btnNota.addEventListener('click', (e) => {
+                    openNoteModal(parseInt(e.currentTarget.dataset.index));
+                });
+                celdaNota.appendChild(btnNota);
+
+
+                fila.appendChild(celdaSeleccionar);
+                fila.appendChild(celdaFecha);
+                fila.appendChild(celdaMonto);
+                fila.appendChild(celdaTipo);
+                fila.appendChild(celdaAcciones);
+                fila.appendChild(celdaNota); 
+                tablaRegistros.appendChild(fila);
+            });
+
+            // Actualiza el Total Pagado usando la variable ajustada
+            totalPagadoSpan.textContent = formatearMonto(totalPagadoAjustado);
+
+            // Actualiza el Total Pendiente usando la variable ajustada
+            totalPendienteSpan.textContent = formatearMonto(totalPendienteAjustado);
+
+            if (isFilterActive) {
+                totalPagadoFilterLabel.textContent = ' (Filtrado)';
+                totalPendienteFilterLabel.textContent = ' (Filtrado)';
+            } else {
+                totalPagadoFilterLabel.textContent = '';
+                totalPendienteFilterLabel.textContent = '';
+            }
+
+            if (hayPendientesEnTabla) {
+                marcarSeleccionadosPagadosBtn.style.display = 'block';
+                aplicarDescuentoBtn.style.display = 'inline-block';
+            } else {
+                marcarSeleccionadosPagadosBtn.style.display = 'none';
+                aplicarDescuentoBtn.style.display = 'none';
+            }
+
+            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            updateUndoButtonState(); 
+            guardarRegistros(); 
+        }
+
+
+        function guardarRegistros() {
+            localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(registros));
+            localStorage.setItem(KEY_TOTAL_PENDIENTE_AJUSTADO, Math.max(0, totalPendienteAjustado).toFixed(2)); 
+            localStorage.setItem(KEY_TOTAL_PAGADO_AJUSTADO, Math.max(0, totalPagadoAjustado).toFixed(2)); 
+        }
+
+        // --- Funciones para el Modal de Nota ---
+        function openNoteModal(index) {
+            currentNoteIndex = index;
+            noteContentInput.value = registros[index].nota || '';
+            noteDetailModal.style.display = 'block';
+        }
+
+        function closeNoteModal() {
+            noteDetailModal.style.display = 'none';
+            currentNoteIndex = -1; 
+        }
+
+        function saveNoteFromModal() {
+            if (currentNoteIndex !== -1 && registros[currentNoteIndex]) {
+                saveState(); 
+                registros[currentNoteIndex].nota = noteContentInput.value;
+                guardarRegistros(); 
+                closeNoteModal();
+                generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            }
+        }
+
+        // --- Funciones del Calendario ---
+
+        function generarCalendario(year, month) {
+            calendarContainer.innerHTML = '';
+            const date = new Date(year, month, 1);
+            const monthName = date.toLocaleString('es-CL', { month: 'long' });
+            currentMonthYearSpan.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let firstDayOfWeek = date.getDay(); 
+
+            firstDayOfWeek = (firstDayOfWeek === 0) ? 6 : firstDayOfWeek - 1;
+
+            const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
+            dayNames.forEach(dayName => {
+                const dayNameDiv = document.createElement('div');
+                dayNameDiv.classList.add('day-name');
+                dayNameDiv.textContent = dayName;
+                calendarContainer.appendChild(dayNameDiv);
+            });
+
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('day', 'empty');
+                calendarContainer.appendChild(emptyDay);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('day');
+                dayDiv.textContent = day;
+
+                const currentDayFormatted = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                const recordsForDay = registros.filter(registro => registro.fecha === currentDayFormatted);
+                const hasWorked = recordsForDay.some(registro => registro.tipo === 'completo');
+                const hasPending = recordsForDay.some(registro => registro.tipo === 'pendiente');
+                const hasNoteForDay = recordsForDay.some(registro => registro.nota && registro.nota.trim() !== '');
+
+
+                if (hasWorked) {
+                    dayDiv.classList.add('worked-day');
+                }
+                if (hasPending) {
+                    dayDiv.classList.add('pending-day');
+                }
+                if (hasNoteForDay) { 
+                    dayDiv.classList.add('day-with-note');
+                }
+
+                if (hasNoteForDay) {
+                    dayDiv.addEventListener('click', () => {
+                        const recordWithNote = recordsForDay.find(r => r.nota && r.nota.trim() !== '');
+                        if (recordWithNote) {
+                            openNoteModal(registros.indexOf(recordWithNote));
+                        }
+                    });
+                }
+
+
+                calendarContainer.appendChild(dayDiv);
+            }
+        }
+
+        // --- Funciones para el Modal Genérico (Alertas/Confirmaciones) ---
+        function showGenericMessage(title, message, isConfirm, callback) {
+            document.getElementById('genericMessageTitle').textContent = title;
+            document.getElementById('genericMessageText').textContent = message;
+            
+            const confirmBtn = document.getElementById('genericMessageConfirmBtn');
+            const cancelBtn = document.getElementById('genericMessageCancelBtn');
+
+            if (isConfirm) {
+                cancelBtn.style.display = 'inline-block';
+                confirmBtn.textContent = 'Aceptar';
+            } else {
+                cancelBtn.style.display = 'none';
+                confirmBtn.textContent = 'Cerrar';
+            }
+
+            genericMessageCallback = callback;
+            document.getElementById('genericMessageModal').style.display = 'block';
+        }
+
+        document.getElementById('genericMessageConfirmBtn').addEventListener('click', () => {
+            document.getElementById('genericMessageModal').style.display = 'none';
+            if (genericMessageCallback) {
+                genericMessageCallback(true);
+                genericMessageCallback = null; // Clear callback
+            }
+        });
+
+        document.getElementById('genericMessageCancelBtn').addEventListener('click', () => {
+            document.getElementById('genericMessageModal').style.display = 'none';
+            if (genericMessageCallback) {
+                genericMessageCallback(false);
+                genericMessageCallback = null; // Clear callback
+            }
+        });
+
+        // --- Event Listeners Principales ---
+
+        agregarBtn.addEventListener('click', () => {
+            const fecha = fechaInput.value;
+            const monto = parseFloat(montoInput.value);
+            const esCompleto = esPagoCompletoCheckbox.checked;
+            const tipoRegistro = esCompleto ? 'completo' : 'pendiente';
+
+            if (fecha && !isNaN(monto) && monto >= 0) {
+                let stateChanged = false; 
+
+                if (agregarBtn.textContent === 'Actualizar Registro') {
+                    const index = parseInt(agregarBtn.dataset.editIndex);
+                    const oldRegistro = registros[index];
+
+                    // Manejo de totales al actualizar un registro
+                    if (oldRegistro.tipo === 'pendiente' && tipoRegistro === 'completo') {
+                        totalPendienteAjustado -= parseFloat(oldRegistro.monto);
+                        totalPagadoAjustado += monto; // Suma el nuevo monto al total pagado
+                        stateChanged = true;
+                    } else if (oldRegistro.tipo === 'completo' && tipoRegistro === 'pendiente') {
+                        totalPendienteAjustado += monto;
+                        totalPagadoAjustado -= parseFloat(oldRegistro.monto); // Resta el monto anterior del total pagado
+                        stateChanged = true;
+                    } else if (oldRegistro.tipo === 'pendiente' && tipoRegistro === 'pendiente') {
+                        if (parseFloat(oldRegistro.monto) !== monto) { 
+                            totalPendienteAjustado -= parseFloat(oldRegistro.monto); 
+                            totalPendienteAjustado += monto; 
+                            stateChanged = true;
+                        }
+                    } else if (oldRegistro.tipo === 'completo' && tipoRegistro === 'completo') {
+                        if (parseFloat(oldRegistro.monto) !== monto) {
+                            totalPagadoAjustado -= parseFloat(oldRegistro.monto); // Resta el monto anterior
+                            totalPagadoAjustado += monto; // Suma el nuevo monto
+                            stateChanged = true; 
+                        }
+                    }
+
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+                    totalPagadoAjustado = Math.max(0, totalPagadoAjustado);
+
+                    registros[index] = { 
+                        fecha: fecha, 
+                        monto: monto, 
+                        tipo: tipoRegistro, 
+                        nota: oldRegistro.nota || '',
+                        isCheckedForSelection: oldRegistro.isCheckedForSelection || false 
+                    }; 
+
+                    agregarBtn.textContent = 'Agregar Registro';
+                    agregarBtn.classList.remove('add-button');
+                    agregarBtn.classList.add('update-button');
+                    delete agregarBtn.dataset.editIndex;
+                } else { // Agregando un nuevo registro
+                    registros.push({ fecha, monto, tipo: tipoRegistro, nota: '', isCheckedForSelection: false }); 
+                    if (tipoRegistro === 'pendiente') {
+                        totalPendienteAjustado += monto; 
+                    } else if (tipoRegistro === 'completo') {
+                        totalPagadoAjustado += monto; // Suma al total pagado si es un pago completo
+                    }
+                    stateChanged = true;
+                }
+
+                if (stateChanged) {
+                    saveState(); 
+                }
+                applyCurrentFilterAndLoadRecords(); 
+                fechaInput.value = '';
+                montoInput.value = '';
+                esPagoCompletoCheckbox.checked = true;
+            } else {
+                showGenericMessage('Error de Entrada', 'Por favor, ingresa una fecha válida y un monto numérico mayor o igual a 0.', false, null);
+            }
+        });
+
+        limpiarBtn.addEventListener('click', () => {
+            showGenericMessage('Confirmar Limpiar Historial', '¿Estás seguro de que quieres limpiar todo el historial de registros? Esta acción no se puede deshacer.', true, (confirmed) => {
+                if (confirmed) {
+                    localStorage.removeItem(KEY_LOCAL_STORAGE);
+                    localStorage.removeItem(KEY_TOTAL_PENDIENTE_AJUSTADO);
+                    localStorage.removeItem(KEY_TOTAL_PAGADO_AJUSTADO);
+                    registros = [];
+                    totalPendienteAjustado = 0; 
+                    totalPagadoAjustado = 0; 
+                    history = []; 
+                    historyPointer = -1;
+                    saveState(); 
+                    filterStartDateInput.value = '';
+                    filterEndDateInput.value = '';
+                    applyCurrentFilterAndLoadRecords(); 
+                }
+            });
+        });
+
+        undoBtn.addEventListener('click', undoAction); 
+
+        goToHistorialBtn.addEventListener('click', () => {
+            document.getElementById('historialSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        tablaRegistros.addEventListener('click', (event) => {
+            const target = event.target;
+            const btn = target.closest('.icon-btn'); 
+            const index = btn ? btn.dataset.index : undefined; 
+
+            if (btn && btn.classList.contains('edit-btn') && index !== undefined) {
+                editarRegistro(parseInt(index));
+            } else if (btn && btn.classList.contains('delete-btn') && index !== undefined) {
+                borrarRegistro(parseInt(index));
+            }
+        });
+
+        tablaRegistros.addEventListener('change', (event) => {
+            if (event.target.classList.contains('select-pending-checkbox')) {
+                const index = parseInt(event.target.dataset.index);
+                if (registros[index]) {
+                    saveState(); 
+                    registros[index].isCheckedForSelection = event.target.checked;
+                    guardarRegistros(); 
+                }
+            }
+        });
+
+
+        marcarSeleccionadosPagadosBtn.addEventListener('click', () => {
+            selectedCheckboxesForMarkingPaid = document.querySelectorAll('.select-pending-checkbox:checked');
+            if (selectedCheckboxesForMarkingPaid.length === 0) {
+                showGenericMessage('Advertencia', 'Por favor, selecciona al menos un pago pendiente para marcar como pagado.', false, null);
+                return;
+            }
+
+            showGenericMessage('Confirmar Marcar Pagado', `¿Estás seguro de que quieres marcar ${selectedCheckboxesForMarkingPaid.length} pago(s) pendiente(s) como PAGADO(S)?\n\nEsta acción solo cambiará el estado visual de los registros. Los totales no serán ajustados automáticamente por esta acción.`, true, (confirmed) => {
+                if (confirmed) {
+                    saveState(); 
+                    let stateChanged = false;
+
+                    selectedCheckboxesForMarkingPaid.forEach(checkbox => {
+                        const index = parseInt(checkbox.dataset.index);
+                        if (registros[index] && registros[index].tipo === 'pendiente') {
+                            registros[index].tipo = 'completo'; 
+                            registros[index].isCheckedForSelection = false; 
+                            stateChanged = true;
+                        }
+                    });
+                    
+                    if (stateChanged) {
+                        applyCurrentFilterAndLoadRecords(); 
+                        showGenericMessage('Éxito', 'Los pagos seleccionados han sido marcados como pagados. Los totales no han sido ajustados por esta acción.', false, null);
+                    }
+                    selectedCheckboxesForMarkingPaid = []; 
+                }
+            });
+        });
+
+        function editarRegistro(index) {
+            const registroAEditar = registros[index];
+            if (registroAEditar) {
+                fechaInput.value = registroAEditar.fecha;
+                montoInput.value = registroAEditar.monto;
+                esPagoCompletoCheckbox.checked = (registroAEditar.tipo === 'completo');
+
+                agregarBtn.textContent = 'Actualizar Registro';
+                agregarBtn.classList.remove('add-button');
+                agregarBtn.classList.add('update-button');
+                agregarBtn.dataset.editIndex = index;
+            }
+        }
+
+        function borrarRegistro(index) {
+            const registroBorrado = registros[index];
+            const tipoRegistro = registroBorrado.tipo === 'completo' ? 'pago completo' : 'saldo pendiente';
+
+            showGenericMessage('Confirmar Borrar Registro', `¿Estás seguro de que quieres borrar el registro del ${formatearFecha(registroBorrado.fecha)} de ${tipoRegistro} por ${formatearMonto(registroBorrado.monto)}?`, true, (confirmed) => {
+                if (confirmed) {
+                    saveState(); 
+                    
+                    if (registroBorrado.tipo === 'pendiente') {
+                        totalPendienteAjustado -= parseFloat(registroBorrado.monto);
+                    } else if (registroBorrado.tipo === 'completo') { 
+                        totalPagadoAjustado -= parseFloat(registroBorrado.monto);
+                    }
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+                    totalPagadoAjustado = Math.max(0, totalPagadoAjustado);
+
+                    registros.splice(index, 1);
+                    applyCurrentFilterAndLoadRecords(); 
+                }
+            });
+        }
+
+        aplicarDescuentoBtn.addEventListener('click', () => {
+            modalTotalPendienteActualSpan.textContent = formatearMonto(totalPendienteAjustado);
+            montoAbonoDescuentoInput.value = ''; 
+            discountModal.style.display = 'block'; 
+        });
+
+        modalDiscountCancelarBtn.addEventListener('click', () => {
+            discountModal.style.display = 'none'; 
+        });
+
+        modalDiscountConfirmarBtn.addEventListener('click', () => {
+            const montoDescuento = parseFloat(montoAbonoDescuentoInput.value);
+
+            if (isNaN(montoDescuento) || montoDescuento <= 0) {
+                showGenericMessage('Error de Entrada', 'Por favor, ingresa un monto válido (numérico y mayor a 0) para abonar/descontar.', false, null);
+                return;
+            }
+            if (montoDescuento > totalPendienteAjustado) {
+                showGenericMessage('Error de Monto', 'El monto a abonar/descontar no puede ser mayor que el Total Pendiente actual.', false, null);
+                return;
+            }
+
+            showGenericMessage('Confirmar Descuento', `¿Aplicar un abono/descuento de ${formatearMonto(montoDescuento)} al Total Pendiente?`, true, (confirmed) => {
+                if (confirmed) {
+                    saveState(); 
+                    totalPendienteAjustado -= montoDescuento; 
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+
+                    totalPagadoAjustado += montoDescuento; 
+
+                    applyCurrentFilterAndLoadRecords(); 
+
+                    discountModal.style.display = 'none'; 
+                    showGenericMessage('Descuento Aplicado', `Se ha aplicado un abono/descuento de ${formatearMonto(montoDescuento)}. Nuevo Total Pendiente: ${formatearMonto(totalPendienteAjustado)}.`, false, null);
+                }
+            });
+        });
+
+        editTotalsBtn.addEventListener('click', () => {
+            editTotalPagadoInput.value = totalPagadoAjustado.toFixed(2); 
+            editTotalPendienteInput.value = totalPendienteAjustado.toFixed(2);
+            editTotalsModal.style.display = 'block';
+        });
+
+        modalEditTotalsCancelarBtn.addEventListener('click', () => {
+            editTotalsModal.style.display = 'none';
+        });
+
+        modalEditTotalsConfirmarBtn.addEventListener('click', () => {
+            const newTotalPagadoDisplay = parseFloat(editTotalPagadoInput.value); 
+            const newTotalPendiente = parseFloat(editTotalPendienteInput.value);
+
+            if (isNaN(newTotalPagadoDisplay) || newTotalPagadoDisplay < 0 || isNaN(newTotalPendiente) || newTotalPendiente < 0) {
+                showGenericMessage('Error de Entrada', 'Por favor, ingresa valores numéricos válidos y no negativos para los totales.', false, null);
+                return;
+            }
+
+            showGenericMessage('Confirmar Edición de Totales', `¿Estás seguro de guardar los nuevos totales?\nTotal Pagado: ${formatearMonto(newTotalPagadoDisplay)}\nTotal Pendiente: ${formatearMonto(newTotalPendiente)}`, true, (confirmed) => {
+                if (confirmed) {
+                    saveState(); 
+                    
+                    totalPendienteAjustado = newTotalPendiente; 
+                    totalPagadoAjustado = newTotalPagadoDisplay; 
+
+                    applyCurrentFilterAndLoadRecords(); 
+
+                    editTotalsModal.style.display = 'none';
+                    showGenericMessage('Éxito', 'Totales actualizados correctamente.', false, null);
+                }
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === discountModal) {
+                discountModal.style.display = 'none';
+            }
+            if (event.target === editTotalsModal) {
+                editTotalsModal.style.display = 'none';
+            }
+            if (event.target === noteDetailModal) { 
+                closeNoteModal();
+            }
+            if (event.target === document.getElementById('genericMessageModal')) {
+                document.getElementById('genericMessageModal').style.display = 'none';
+                if (genericMessageCallback) {
+                    genericMessageCallback(false); // Treat outside click as cancel
+                    genericMessageCallback = null;
+                }
+            }
+        });
+
+        modalNoteCancelarBtn.addEventListener('click', closeNoteModal);
+        modalNoteGuardarBtn.addEventListener('click', saveNoteFromModal);
+
+        applyFilterBtn.addEventListener('click', () => {
+            applyCurrentFilterAndLoadRecords();
+        });
+
+        clearFilterBtn.addEventListener('click', () => {
+            filterStartDateInput.value = '';
+            filterEndDateInput.value = '';
+            applyCurrentFilterAndLoadRecords();
+        });
+
+
+        function toggleCalendarVisibility() {
+            const isVisible = calendarSection.classList.toggle('visible');
+            toggleCalendarBtn.textContent = isVisible ? 'Ocultar Calendario' : 'Mostrar Calendario';
+            localStorage.setItem(KEY_CALENDAR_VISIBLE, isVisible); 
+        }
+
+        toggleCalendarBtn.addEventListener('click', toggleCalendarVisibility);
+
+        function toggleFilterVisibility() {
+            const isVisible = filterContentSection.classList.toggle('visible');
+            toggleFilterBtn.textContent = isVisible ? 'Ocultar Filtro' : 'Mostrar Filtro';
+            localStorage.setItem(KEY_FILTER_VISIBLE, isVisible);
+        }
+
+        toggleFilterBtn.addEventListener('click', toggleFilterVisibility);
+
+
+        // --- Lógica del botón Volver al Inicio ---
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 200) { 
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' 
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarRegistros(); 
+            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+
+            const calendarWasVisible = localStorage.getItem(KEY_CALENDAR_VISIBLE) === 'true';
+            if (calendarWasVisible) {
+                calendarSection.classList.add('visible');
+                toggleCalendarBtn.textContent = 'Ocultar Calendario';
+            } else {
+                calendarSection.classList.remove('visible');
+                toggleCalendarBtn.textContent = 'Mostrar Calendario';
+            }
+
+            const filterWasVisible = localStorage.getItem(KEY_FILTER_VISIBLE) === 'true';
+            if (filterWasVisible) {
+                filterContentSection.classList.add('visible');
+                toggleFilterBtn.textContent = 'Ocultar Filtro';
+            } else {
+                filterContentSection.classList.remove('visible');
+                toggleFilterBtn.textContent = 'Mostrar Filtro';
+            }
+        });
+
+        prevMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+        });
+    </script>
+
+</body>
+</html>
+
