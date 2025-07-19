@@ -317,6 +317,8 @@
             gap: 3px;
             padding: 8px;
             text-align: center;
+            transition: max-height 0.3s ease-in-out;
+            overflow: hidden;
         }
         #calendar .day-name {
             font-weight: bold;
@@ -373,6 +375,16 @@
             border-color: #20b2aa;
             color: #006400;
         }
+        #calendar.minimized {
+            grid-template-columns: repeat(5, 1fr);
+            max-height: 60px; /* Ajusta la altura para 5 días */
+        }
+        #calendar.minimized .day-name {
+            display: none;
+        }
+        #calendar.minimized .empty {
+            display: none;
+        }
 
 
         #calendar-header {
@@ -419,6 +431,7 @@
             max-width: 500px;
             display: flex;
             justify-content: center;
+            gap: 10px; /* Espacio entre botones del calendario */
         }
         .calendar-toggle-button {
             background-color: #17a2b8;
@@ -428,6 +441,20 @@
         }
         .calendar-toggle-button:hover {
             background-color: #138496;
+        }
+        .minimize-calendar-button {
+            background-color: #6c757d;
+            width: fit-content;
+            padding: 10px 20px;
+            font-size: 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .minimize-calendar-button:hover {
+            background-color: #5a6268;
         }
 
         /* --- Estilos de Modales (general) --- */
@@ -672,6 +699,7 @@
     <h2>Calendario de Días Trabajados</h2>
     <div class="calendar-toggle-container">
         <button id="toggleCalendarBtn" class="calendar-toggle-button">Mostrar Calendario</button>
+        <button id="minimizeCalendarBtn" class="minimize-calendar-button">Minimizar</button>
     </div>
     <div class="calendar-container" id="calendarSection">
         <div id="calendar-header">
@@ -812,6 +840,7 @@
         const calendarContainer = document.getElementById('calendar');
         const calendarSection = document.getElementById('calendarSection');
         const toggleCalendarBtn = document.getElementById('toggleCalendarBtn');
+        const minimizeCalendarBtn = document.getElementById('minimizeCalendarBtn');
         const currentMonthYearSpan = document.getElementById('currentMonthYear');
         const prevMonthBtn = document.getElementById('prevMonth');
         const nextMonthBtn = document.getElementById('nextMonth');
@@ -858,11 +887,13 @@
         const KEY_TOTAL_PAGADO_AJUSTADO = 'totalPagadoAjustado';
         const KEY_CALENDAR_VISIBLE = 'calendarVisible';
         const KEY_FILTER_VISIBLE = 'filterVisible';
+        const KEY_CALENDAR_MINIMIZED = 'calendarMinimized';
 
         let registros = [];
         let totalPendienteAjustado = 0;
         let totalPagadoAjustado = 0;
         let currentCalendarDate = new Date();
+        let isCalendarMinimized = false;
 
         // --- Variables para el Historial (Deshacer) ---
         let history = [];
@@ -1097,6 +1128,7 @@
             localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(registros));
             localStorage.setItem(KEY_TOTAL_PENDIENTE_AJUSTADO, Math.max(0, totalPendienteAjustado).toFixed(2));
             localStorage.setItem(KEY_TOTAL_PAGADO_AJUSTADO, Math.max(0, totalPagadoAjustado).toFixed(2));
+            localStorage.setItem(KEY_CALENDAR_MINIMIZED, isCalendarMinimized);
         }
 
         // --- Funciones para el Modal de Nota ---
@@ -1123,7 +1155,7 @@
 
         // --- Funciones del Calendario ---
 
-        function generarCalendario(year, month) {
+        function generarCalendario(year, month, dayRange = null) {
             calendarContainer.innerHTML = '';
             const date = new Date(year, month, 1);
             const monthName = date.toLocaleString('es-CL', { month: 'long' });
@@ -1136,53 +1168,95 @@
 
             const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
-            dayNames.forEach(dayName => {
-                const dayNameDiv = document.createElement('div');
-                dayNameDiv.classList.add('day-name');
-                dayNameDiv.textContent = dayName;
-                calendarContainer.appendChild(dayNameDiv);
-            });
+            if (!dayRange) {
+                dayNames.forEach(dayName => {
+                    const dayNameDiv = document.createElement('div');
+                    dayNameDiv.classList.add('day-name');
+                    dayNameDiv.textContent = dayName;
+                    calendarContainer.appendChild(dayNameDiv);
+                });
 
-            for (let i = 0; i < firstDayOfWeek; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.classList.add('day', 'empty');
-                calendarContainer.appendChild(emptyDay);
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayDiv = document.createElement('div');
-                dayDiv.classList.add('day');
-                dayDiv.textContent = day;
-
-                const currentDayFormatted = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-                const recordsForDay = registros.filter(registro => registro.fecha === currentDayFormatted);
-                const hasWorked = recordsForDay.some(registro => registro.tipo === 'completo');
-                const hasPending = recordsForDay.some(registro => registro.tipo === 'pendiente');
-                const hasNoteForDay = recordsForDay.some(registro => registro.nota && registro.nota.trim() !== '');
-
-
-                if (hasWorked) {
-                    dayDiv.classList.add('worked-day');
-                }
-                if (hasPending) {
-                    dayDiv.classList.add('pending-day');
-                }
-                if (hasNoteForDay) {
-                    dayDiv.classList.add('day-with-note');
+                for (let i = 0; i < firstDayOfWeek; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.classList.add('day', 'empty');
+                    calendarContainer.appendChild(emptyDay);
                 }
 
-                if (hasNoteForDay) {
-                    dayDiv.addEventListener('click', () => {
-                        const recordWithNote = recordsForDay.find(r => r.nota && r.nota.trim() !== '');
-                        if (recordWithNote) {
-                            openNoteModal(registros.indexOf(recordWithNote));
-                        }
-                    });
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.classList.add('day');
+                    dayDiv.textContent = day;
+
+                    const currentDayFormatted = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                    const recordsForDay = registros.filter(registro => registro.fecha === currentDayFormatted);
+                    const hasWorked = recordsForDay.some(registro => registro.tipo === 'completo');
+                    const hasPending = recordsForDay.some(registro => registro.tipo === 'pendiente');
+                    const hasNoteForDay = recordsForDay.some(registro => registro.nota && registro.nota.trim() !== '');
+
+
+                    if (hasWorked) {
+                        dayDiv.classList.add('worked-day');
+                    }
+                    if (hasPending) {
+                        dayDiv.classList.add('pending-day');
+                    }
+                    if (hasNoteForDay) {
+                        dayDiv.classList.add('day-with-note');
+                    }
+
+                    if (hasNoteForDay) {
+                        dayDiv.addEventListener('click', () => {
+                            const recordWithNote = recordsForDay.find(r => r.nota && r.nota.trim() !== '');
+                            if (recordWithNote) {
+                                openNoteModal(registros.indexOf(recordWithNote));
+                            }
+                        });
+                    }
+                    calendarContainer.appendChild(dayDiv);
+                }
+            } else {
+                const currentDay = new Date().getDate();
+                let startDay = Math.max(1, currentDay - 2);
+                let endDay = Math.min(daysInMonth, currentDay + 2);
+
+                if (startDay === 1) {
+                    endDay = Math.min(daysInMonth, 5);
+                } else if (endDay === daysInMonth) {
+                    startDay = Math.max(1, daysInMonth - 4);
                 }
 
+                for (let day = startDay; day <= endDay; day++) {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.classList.add('day');
+                    dayDiv.textContent = day;
 
-                calendarContainer.appendChild(dayDiv);
+                    const currentDayFormatted = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                    const recordsForDay = registros.filter(registro => registro.fecha === currentDayFormatted);
+                    const hasWorked = recordsForDay.some(registro => registro.tipo === 'completo');
+                    const hasPending = recordsForDay.some(registro => registro.tipo === 'pendiente');
+                    const hasNoteForDay = recordsForDay.some(registro => registro.nota && registro.nota.trim() !== '');
+
+                    if (hasWorked) {
+                        dayDiv.classList.add('worked-day');
+                    }
+                    if (hasPending) {
+                        dayDiv.classList.add('pending-day');
+                    }
+                    if (hasNoteForDay) {
+                        dayDiv.classList.add('day-with-note');
+                    }
+                    if (hasNoteForDay) {
+                        dayDiv.addEventListener('click', () => {
+                            const recordWithNote = recordsForDay.find(r => r.nota && r.nota.trim() !== '');
+                            if (recordWithNote) {
+                                openNoteModal(registros.indexOf(recordWithNote));
+                            }
+                        });
+                    }
+                    calendarContainer.appendChild(dayDiv);
+                }
             }
         }
 
@@ -1303,6 +1377,7 @@
                     localStorage.removeItem(KEY_LOCAL_STORAGE);
                     localStorage.removeItem(KEY_TOTAL_PENDIENTE_AJUSTADO);
                     localStorage.removeItem(KEY_TOTAL_PAGADO_AJUSTADO);
+                    localStorage.removeItem(KEY_CALENDAR_MINIMIZED);
                     registros = [];
                     totalPendienteAjustado = 0;
                     totalPagadoAjustado = 0;
@@ -1312,6 +1387,8 @@
                     filterStartDateInput.value = '';
                     filterEndDateInput.value = '';
                     applyCurrentFilterAndLoadRecords();
+                    isCalendarMinimized = false;
+                    calendarContainer.classList.remove('minimized');
                 }
             });
         });
@@ -1637,9 +1714,41 @@
             });
         }
 
+        function minimizeCalendar() {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            generarCalendario(year, month, 'minimized');
+            calendarContainer.classList.add('minimized');
+            isCalendarMinimized = true;
+            guardarRegistros();
+        }
+
+        function restoreCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            generarCalendario(year, month);
+            calendarContainer.classList.remove('minimized');
+            isCalendarMinimized = false;
+            guardarRegistros();
+        }
+
+        minimizeCalendarBtn.addEventListener('click', () => {
+            if (isCalendarMinimized) {
+                restoreCalendar();
+                minimizeCalendarBtn.textContent = 'Minimizar';
+            } else {
+                minimizeCalendar();
+                minimizeCalendarBtn.textContent = 'Mostrar Todo';
+            }
+        });
+
+
         document.addEventListener('DOMContentLoaded', () => {
             cargarRegistros();
-            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            generarCalendario(year, month);
             renderMonthlyReport(); // Asegurar que el informe se genere al cargar la página
 
             const calendarWasVisible = localStorage.getItem(KEY_CALENDAR_VISIBLE) === 'true';
@@ -1659,16 +1768,30 @@
                 filterContentSection.classList.remove('visible');
                 toggleFilterBtn.textContent = 'Mostrar Filtro';
             }
+
+            const calendarWasMinimized = localStorage.getItem(KEY_CALENDAR_MINIMIZED) === 'true';
+            if (calendarWasMinimized) {
+                minimizeCalendar();
+                minimizeCalendarBtn.textContent = 'Mostrar Todo';
+            }
         });
 
         prevMonthBtn.addEventListener('click', () => {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            if (isCalendarMinimized) {
+                minimizeCalendar();
+            } else {
+                generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            }
         });
 
         nextMonthBtn.addEventListener('click', () => {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-            generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            if (isCalendarMinimized) {
+                minimizeCalendar();
+            } else {
+                generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            }
         });
     </script>
 
