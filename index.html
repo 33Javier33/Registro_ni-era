@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Niñera</title>
-    <!-- Enlace a Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -12,7 +11,7 @@
             margin: 20px;
             background-color: #f4f4f4;
             color: #333;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
         h1 {
             color: #0056b3;
@@ -23,7 +22,7 @@
             color: #0056b3;
             text-align: center;
             margin-top: 20px; /* Reducido para acercar secciones */
-            margin-bottom: 10px; 
+            margin-bottom: 10px;
         }
         .form-container { /* Reducido el margen inferior */
             background-color: #fff;
@@ -39,7 +38,7 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            width: 100%; 
+            width: 100%;
         }
         .form-group label {
             margin-bottom: 5px;
@@ -53,8 +52,8 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
-            width: 100%; 
-            box-sizing: border-box; 
+            width: 100%;
+            box-sizing: border-box;
         }
         .form-group input[type="number"]::placeholder {
             color: #aaa;
@@ -66,7 +65,7 @@
             margin-top: 10px;
             font-weight: bold;
             color: #555;
-            width: 100%; 
+            width: 100%;
         }
         .form-checkbox input[type="checkbox"] {
             width: 20px;
@@ -74,34 +73,34 @@
         }
 
         button {
-            padding: 8px 15px; 
+            padding: 8px 15px;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px; 
+            font-size: 14px;
             transition: background-color 0.3s ease;
         }
         .add-button {
             background-color: #28a745;
-            width: 100%; 
-            margin-bottom: 10px; 
+            width: 100%;
+            margin-bottom: 10px;
         }
         .add-button:hover {
             background-color: #218838;
         }
         .form-buttons-bottom {
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-around; 
-            width: 100%; 
-            gap: 10px; 
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+            gap: 10px;
         }
         .form-buttons-bottom button {
-            flex: 1; 
-            min-width: 120px; 
-            margin: 0; 
-            padding: 10px 15px; 
+            flex: 1;
+            min-width: 120px;
+            margin: 0;
+            padding: 10px 15px;
             font-size: 14px;
         }
 
@@ -117,20 +116,20 @@
         .update-button:hover {
             background-color: #0056b3;
         }
-        .mark-paid-button { 
+        .mark-paid-button {
             background-color: #17a2b8;
             margin-top: 20px;
             padding: 10px 15px;
-            font-size: 15px; 
-            display: block; 
+            font-size: 15px;
+            display: block;
             margin-left: auto;
             margin-right: auto;
         }
         .mark-paid-button:hover {
             background-color: #138496;
         }
-        .discount-button { 
-            background-color: #6f42c1; 
+        .discount-button {
+            background-color: #6f42c1;
             padding: 8px 12px;
             font-size: 14px;
             border-radius: 4px;
@@ -142,8 +141,8 @@
             background-color: #5a2eac;
         }
         .edit-totals-button {
-            background-color: #ffc107; 
-            color: #333; 
+            background-color: #ffc107;
+            color: #333;
             padding: 8px 12px;
             font-size: 14px;
             border-radius: 4px;
@@ -155,7 +154,7 @@
             background-color: #e0a800;
         }
         .undo-button {
-            background-color: #6c757d; 
+            background-color: #6c757d;
         }
         .undo-button:hover {
             background-color: #5a6268;
@@ -176,22 +175,22 @@
             right: 20px;
             background-color: #333;
             color: white;
-            border-radius: 50%; 
-            width: 50px; 
+            border-radius: 50%;
+            width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px; 
+            font-size: 24px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             transition: background-color 0.3s, opacity 0.3s;
-            z-index: 999; 
-            opacity: 0; 
-            pointer-events: none; 
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
         }
         .back-to-top-button.show {
             opacity: 1;
-            pointer-events: auto; 
+            pointer-events: auto;
         }
         .back-to-top-button:hover {
             background-color: #555;
@@ -199,27 +198,27 @@
 
 
         table {
-            width: 95%; 
-            max-width: 900px; 
+            width: 95%;
+            max-width: 900px;
             margin: 20px auto;
             border-collapse: collapse;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             background-color: #fff;
-            overflow-x: auto; 
-            display: block; 
+            overflow-x: auto;
+            display: block;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 10px; 
+            padding: 10px;
             text-align: left;
-            white-space: nowrap; 
+            white-space: nowrap;
         }
-        th:nth-child(1), td:nth-child(1) { width: 3%; text-align: center;} 
-        th:nth-child(2), td:nth-child(2) { width: 18%; } 
-        th:nth-child(3), td:nth-child(3) { width: 18%; } 
-        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: center; } 
-        th:nth-child(5), td:nth-child(5) { width: 25%; text-align: center; } 
-        th:nth-child(6), td:nth-child(6) { width: 21%; text-align: center; } 
+        th:nth-child(1), td:nth-child(1) { width: 3%; text-align: center;}
+        th:nth-child(2), td:nth-child(2) { width: 18%; }
+        th:nth-child(3), td:nth-child(3) { width: 18%; }
+        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: center; }
+        th:nth-child(5), td:nth-child(5) { width: 25%; text-align: center; }
+        th:nth-child(6), td:nth-child(6) { width: 21%; text-align: center; }
 
 
         th {
@@ -238,50 +237,50 @@
             background-color: #e2e6ea;
         }
         tfoot td {
-            vertical-align: middle; 
+            vertical-align: middle;
         }
-        .total-info-cell { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            gap: 10px; 
+        .total-info-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
         }
         .action-buttons {
             display: flex;
             gap: 5px;
-            flex-wrap: wrap; 
-            justify-content: center; 
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .action-buttons .icon-btn {
-            background: none; 
-            border: none; 
-            color: #555; 
-            font-size: 1.1em; 
-            padding: 3px; 
+            background: none;
+            border: none;
+            color: #555;
+            font-size: 1.1em;
+            padding: 3px;
             cursor: pointer;
             transition: color 0.3s ease;
-            display: flex; 
+            display: flex;
             align-items: center;
             justify-content: center;
         }
         .action-buttons .icon-btn:hover {
-            color: #007bff; 
+            color: #007bff;
         }
         .action-buttons .edit-btn .fa-pencil-alt {
-            color: #ffc107; 
+            color: #ffc107;
         }
         .action-buttons .delete-btn .fa-trash-alt {
-            color: #dc3545; 
+            color: #dc3545;
         }
         .action-buttons .note-btn .fa-sticky-note {
-            color: #4CAF50; 
+            color: #4CAF50;
         }
         .action-buttons .note-btn:hover .fa-sticky-note {
             color: #388E3C;
         }
         .table-check-icon {
-            color: #28a745; 
-            font-size: 1.1em; 
+            color: #28a745;
+            font-size: 1.1em;
         }
 
 
@@ -293,22 +292,22 @@
         .pendiente td {
             border-color: #ffeeba;
         }
-        .select-pending-checkbox { 
-            width: 16px; 
-            height: 16px; 
+        .select-pending-checkbox {
+            width: 16px;
+            height: 16px;
             cursor: pointer;
-            vertical-align: middle; 
+            vertical-align: middle;
         }
         #noteContentInput {
-            width: calc(100% - 22px); 
-            height: 150px; 
+            width: calc(100% - 22px);
+            height: 150px;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
-            box-sizing: border-box; 
-            resize: vertical; 
+            box-sizing: border-box;
+            resize: vertical;
         }
 
 
@@ -336,7 +335,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer; 
+            cursor: pointer;
             transition: background-color 0.2s ease;
         }
         #calendar .day:hover {
@@ -359,18 +358,18 @@
             color: #856404;
         }
         #calendar .day-with-note {
-            background-color: #d1ecf1; 
+            background-color: #d1ecf1;
             border-color: #007bff;
             color: #0c5460;
             font-weight: bold;
         }
-        #calendar .day-with-note.pending-day { 
-            background-color: #f0e68c; 
+        #calendar .day-with-note.pending-day {
+            background-color: #f0e68c;
             border-color: #daa520;
             color: #8B4513;
         }
-        #calendar .day-with-note.worked-day { 
-            background-color: #a2d9ce; 
+        #calendar .day-with-note.worked-day {
+            background-color: #a2d9ce;
             border-color: #20b2aa;
             color: #006400;
         }
@@ -397,33 +396,33 @@
         }
 
         .calendar-container {
-            overflow: hidden; 
-            max-height: 0; 
-            transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease-out; 
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease-out;
             padding-top: 0;
             padding-bottom: 0;
-            opacity: 0; 
+            opacity: 0;
             margin: 0 auto; /* Eliminar margen inferior si se va a ocultar */
         }
         .calendar-container.visible {
-            max-height: 500px; 
+            max-height: 500px;
             padding-top: 25px;
             padding-bottom: 25px;
-            opacity: 1; 
+            opacity: 1;
         }
         .calendar-toggle-container {
             background-color: #fff;
-            padding: 15px; 
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin: 0 auto 5px auto; /* Reducido a 5px */
             max-width: 500px;
             display: flex;
-            justify-content: center; 
+            justify-content: center;
         }
         .calendar-toggle-button {
             background-color: #17a2b8;
-            width: fit-content; 
+            width: fit-content;
             padding: 10px 20px;
             font-size: 15px;
         }
@@ -433,26 +432,26 @@
 
         /* --- Estilos de Modales (general) --- */
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto; 
+            margin: 5% auto;
             padding: 30px;
             border: 1px solid #888;
             border-radius: 10px;
-            width: 80%; 
-            max-width: 400px; 
+            width: 80%;
+            max-width: 400px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             text-align: center;
         }
@@ -475,7 +474,7 @@
         }
 
         .modal-content input[type="number"] {
-            width: calc(100% - 22px); 
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
@@ -490,7 +489,7 @@
         }
 
         .modal-buttons button {
-            flex: 1; 
+            flex: 1;
             padding: 10px 15px;
             font-size: 16px;
             border-radius: 5px;
@@ -516,13 +515,13 @@
         /* Estilos para el contenedor de filtro */
         .filter-toggle-container {
             background-color: #fff;
-            padding: 15px; 
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin: 0 auto 5px auto; /* Reducido a 5px */
             max-width: 500px;
             display: flex;
-            justify-content: center; 
+            justify-content: center;
         }
         .filter-toggle-button {
             background-color: #17a2b8;
@@ -539,62 +538,107 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: flex-end; 
-            gap: 15px; 
-            max-width: 900px; 
-            margin: 0 auto 20px auto; 
+            align-items: flex-end;
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            
-            overflow: hidden; 
-            max-height: 0; 
+
+            overflow: hidden;
+            max-height: 0;
             padding-top: 0;
             padding-bottom: 0;
             opacity: 0;
             transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease-out;
         }
         .filter-content-container.visible {
-            max-height: 200px; 
+            max-height: 200px;
             padding-top: 20px;
             padding-bottom: 20px;
             opacity: 1;
         }
 
         .filter-content-container .form-group {
-            flex: 1 1 calc(50% - 15px); 
-            min-width: 180px; 
-            max-width: 250px; 
+            flex: 1 1 calc(50% - 15px);
+            min-width: 180px;
+            max-width: 250px;
             display: flex;
             flex-direction: column;
-            gap: 5px; 
+            gap: 5px;
         }
         .filter-content-container .form-group label {
-            margin-bottom: 0; 
+            margin-bottom: 0;
         }
         .filter-content-container button {
-            flex: 0 0 auto; 
-            padding: 10px 20px; 
-            font-size: 15px; 
-            margin-top: 0; 
+            flex: 0 0 auto;
+            padding: 10px 20px;
+            font-size: 15px;
+            margin-top: 0;
         }
 
         /* Media query para pantallas pequeñas */
         @media (max-width: 600px) {
             .filter-content-container .form-group {
-                flex: 1 1 100%; 
+                flex: 1 1 100%;
                 max-width: 100%;
             }
             .filter-content-container button {
-                width: 100%; 
-                margin-top: 10px; 
+                width: 100%;
+                margin-top: 10px;
             }
         }
         .filtered-label {
             font-size: 0.9em;
             color: #666;
             margin-left: 5px;
+        }
+
+        /* Estilos adicionales para el informe mensual */
+        #monthlyReportSection {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 900px;
+        }
+        .monthly-summary {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .monthly-summary h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .toggle-details-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .toggle-details-btn:hover {
+            background-color: #218838;
+        }
+        .monthly-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .monthly-details-table th, .monthly-details-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .monthly-details-table th {
+            background-color: #f4f4f4;
         }
     </style>
 </head>
@@ -618,8 +662,8 @@
         <button id="agregarRegistro" class="add-button">Agregar Registro</button>
         <div class="form-buttons-bottom">
             <button id="limpiarHistorial" class="clear-button">Limpiar Historial</button>
-            <button id="undoBtn" class="undo-button" disabled>Deshacer</button> 
-            <button id="goToHistorialBtn" class="nav-button">Ir al Historial</button> 
+            <button id="undoBtn" class="undo-button" disabled>Deshacer</button>
+            <button id="goToHistorialBtn" class="nav-button">Ir al Historial</button>
         </div>
     </div>
 
@@ -641,7 +685,7 @@
 
     ---
 
-    <div id="historialSection"> 
+    <div id="historialSection">
         <h2>Filtro de Registros</h2>
         <div class="filter-toggle-container">
             <button id="toggleFilterBtn" class="filter-toggle-button">Mostrar Filtro</button>
@@ -662,12 +706,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Sel.</th> 
+                    <th>Sel.</th>
                     <th>Fecha</th>
                     <th>Monto</th>
                     <th>Tipo</th>
                     <th>Acciones</th>
-                    <th>Nota</th> 
+                    <th>Nota</th>
                 </tr>
             </thead>
             <tbody id="tablaRegistros">
@@ -677,14 +721,14 @@
                     <td colspan="3">Total Pagado:<span id="totalPagadoFilterLabel" class="filtered-label"></span></td>
                     <td colspan="3">
                         <div class="total-info-cell">
-                            <span id="totalPagado">0</span> 
-                            <button id="editTotalsBtn" class="edit-totals-button">Editar Totales</button> 
+                            <span id="totalPagado">0</span>
+                            <button id="editTotalsBtn" class="edit-totals-button">Editar Totales</button>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">Total Pendiente:<span id="totalPendienteFilterLabel" class="filtered-label"></span></td>
-                    <td colspan="3"> 
+                    <td colspan="3">
                         <div class="total-info-cell">
                             <span id="totalPendiente">0</span>
                             <button id="aplicarDescuentoBtn" class="discount-button">Aplicar Descuento</button>
@@ -695,9 +739,8 @@
         </table>
 
         <button id="marcarSeleccionadosPagados" class="mark-paid-button" style="display: none;">Marcar Seleccionados como Pagados</button>
-    </div> 
+    </div>
 
-    <!-- Modal para Aplicar Descuento Global -->
     <div id="discountModal" class="modal">
         <div class="modal-content">
             <h3>Aplicar Abono/Descuento Global</h3>
@@ -711,7 +754,6 @@
         </div>
     </div>
 
-    <!-- Nuevo Modal para Editar Totales -->
     <div id="editTotalsModal" class="modal">
         <div class="modal-content">
             <h3>Editar Totales Manualmente</h3>
@@ -730,7 +772,6 @@
         </div>
     </div>
 
-    <!-- Nuevo Modal para Ver/Editar Nota -->
     <div id="noteDetailModal" class="modal">
         <div class="modal-content">
             <h3>Nota del Registro</h3>
@@ -742,7 +783,6 @@
         </div>
     </div>
 
-    <!-- Generic Alert/Confirmation Modal -->
     <div id="genericMessageModal" class="modal">
         <div class="modal-content">
             <h3 id="genericMessageTitle"></h3>
@@ -754,9 +794,7 @@
         </div>
     </div>
 
-    <!-- Botón "Volver al Inicio" -->
     <button id="backToTopBtn" class="back-to-top-button">↑</button>
-
 
     <script>
         const fechaInput = document.getElementById('fechaTrabajo');
@@ -764,10 +802,10 @@
         const esPagoCompletoCheckbox = document.getElementById('esPagoCompleto');
         const agregarBtn = document.getElementById('agregarRegistro');
         const limpiarBtn = document.getElementById('limpiarHistorial');
-        const undoBtn = document.getElementById('undoBtn'); 
-        const goToHistorialBtn = document.getElementById('goToHistorialBtn'); 
+        const undoBtn = document.getElementById('undoBtn');
+        const goToHistorialBtn = document.getElementById('goToHistorialBtn');
         const tablaRegistros = document.getElementById('tablaRegistros');
-        const totalPagadoSpan = document.getElementById('totalPagado'); 
+        const totalPagadoSpan = document.getElementById('totalPagado');
         const totalPendienteSpan = document.getElementById('totalPendiente');
         const marcarSeleccionadosPagadosBtn = document.getElementById('marcarSeleccionadosPagados');
 
@@ -796,9 +834,9 @@
         const noteContentInput = document.getElementById('noteContentInput');
         const modalNoteCancelarBtn = document.getElementById('modalNoteCancelar');
         const modalNoteGuardarBtn = document.getElementById('modalNoteGuardar');
-        let currentNoteIndex = -1; 
+        let currentNoteIndex = -1;
 
-        let selectedCheckboxesForMarkingPaid = []; 
+        let selectedCheckboxesForMarkingPaid = [];
 
         const filterStartDateInput = document.getElementById('filterStartDate');
         const filterEndDateInput = document.getElementById('filterEndDate');
@@ -807,29 +845,29 @@
         const totalPagadoFilterLabel = document.getElementById('totalPagadoFilterLabel');
         const totalPendienteFilterLabel = document.getElementById('totalPendienteFilterLabel');
 
-        const toggleFilterBtn = document.getElementById('toggleFilterBtn'); 
-        const filterContentSection = document.getElementById('filterContentSection'); 
+        const toggleFilterBtn = document.getElementById('toggleFilterBtn');
+        const filterContentSection = document.getElementById('filterContentSection');
 
-        const backToTopBtn = document.getElementById('backToTopBtn'); 
+        const backToTopBtn = document.getElementById('backToTopBtn');
 
         // Global variables for generic modal callback
         let genericMessageCallback = null;
 
         const KEY_LOCAL_STORAGE = 'registrosNiñera';
         const KEY_TOTAL_PENDIENTE_AJUSTADO = 'totalPendienteAjustado';
-        const KEY_TOTAL_PAGADO_AJUSTADO = 'totalPagadoAjustado'; 
-        const KEY_CALENDAR_VISIBLE = 'calendarVisible'; 
-        const KEY_FILTER_VISIBLE = 'filterVisible'; 
-        
+        const KEY_TOTAL_PAGADO_AJUSTADO = 'totalPagadoAjustado';
+        const KEY_CALENDAR_VISIBLE = 'calendarVisible';
+        const KEY_FILTER_VISIBLE = 'filterVisible';
+
         let registros = [];
-        let totalPendienteAjustado = 0; 
-        let totalPagadoAjustado = 0; 
+        let totalPendienteAjustado = 0;
+        let totalPagadoAjustado = 0;
         let currentCalendarDate = new Date();
 
         // --- Variables para el Historial (Deshacer) ---
         let history = [];
         let historyPointer = -1;
-        const MAX_HISTORY_SIZE = 20; 
+        const MAX_HISTORY_SIZE = 20;
 
         // --- Funciones de Utilidad ---
 
@@ -847,6 +885,11 @@
             });
         }
 
+        function formatearFechaMesAnio(fechaStr) {
+            const date = new Date(fechaStr + 'T00:00:00');
+            return date.toLocaleString('es-CL', { year: 'numeric', month: 'long' });
+        }
+
         // --- Funciones de Gestión de Historial (Deshacer) ---
 
         function saveState() {
@@ -857,13 +900,13 @@
             const currentState = {
                 registros: JSON.parse(JSON.stringify(registros)),
                 totalPendienteAjustado: totalPendienteAjustado,
-                totalPagadoAjustado: totalPagadoAjustado 
+                totalPagadoAjustado: totalPagadoAjustado
             };
             history.push(currentState);
             historyPointer++;
 
             if (history.length > MAX_HISTORY_SIZE) {
-                history.shift(); 
+                history.shift();
                 historyPointer--;
             }
             updateUndoButtonState();
@@ -872,9 +915,9 @@
         function loadState(state) {
             registros = JSON.parse(JSON.stringify(state.registros));
             totalPendienteAjustado = state.totalPendienteAjustado;
-            totalPagadoAjustado = state.totalPagadoAjustado; 
-            
-            applyCurrentFilterAndLoadRecords(); 
+            totalPagadoAjustado = state.totalPagadoAjustado;
+
+            applyCurrentFilterAndLoadRecords();
             updateUndoButtonState();
         }
 
@@ -915,15 +958,15 @@
             if (history.length === 0 && localStorage.getItem(KEY_LOCAL_STORAGE)) {
                 registros = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE)) || [];
                 totalPendienteAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PENDIENTE_AJUSTADO)) || 0;
-                totalPagadoAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PAGADO_AJUSTADO)) || 0; 
-                saveState(); 
-            } else if (history.length === 0) { 
+                totalPagadoAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PAGADO_AJUSTADO)) || 0;
+                saveState();
+            } else if (history.length === 0) {
                 registros = [];
                 totalPendienteAjustado = 0;
                 totalPagadoAjustado = 0;
-                saveState(); 
+                saveState();
             }
-            applyCurrentFilterAndLoadRecords(); 
+            applyCurrentFilterAndLoadRecords();
         }
 
         function applyCurrentFilterAndLoadRecords() {
@@ -963,7 +1006,7 @@
                 const celdaMonto = document.createElement('td');
                 const celdaTipo = document.createElement('td');
                 const celdaAcciones = document.createElement('td');
-                const celdaNota = document.createElement('td'); 
+                const celdaNota = document.createElement('td');
                 const divAcciones = document.createElement('div');
                 divAcciones.classList.add('action-buttons');
 
@@ -971,8 +1014,8 @@
                 celdaMonto.textContent = formatearMonto(registro.monto);
 
                 if (registro.tipo === 'completo') {
-                    celdaTipo.innerHTML = '<i class="fas fa-check table-check-icon"></i>'; 
-                    celdaSeleccionar.innerHTML = ''; 
+                    celdaTipo.innerHTML = '<i class="fas fa-check table-check-icon"></i>';
+                    celdaSeleccionar.innerHTML = '';
                 } else {
                     celdaTipo.textContent = 'Pendiente';
                     fila.classList.add('pendiente');
@@ -981,20 +1024,20 @@
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.classList.add('select-pending-checkbox');
-                    checkbox.dataset.index = registros.indexOf(registro); 
-                    checkbox.checked = registro.isCheckedForSelection || false; 
+                    checkbox.dataset.index = registros.indexOf(registro);
+                    checkbox.checked = registro.isCheckedForSelection || false;
                     celdaSeleccionar.appendChild(checkbox);
                 }
 
                 const btnEditar = document.createElement('button');
                 btnEditar.classList.add('edit-btn', 'icon-btn');
-                btnEditar.dataset.index = registros.indexOf(registro); 
-                btnEditar.innerHTML = '<i class="fas fa-pencil-alt"></i>'; 
+                btnEditar.dataset.index = registros.indexOf(registro);
+                btnEditar.innerHTML = '<i class="fas fa-pencil-alt"></i>';
 
                 const btnBorrar = document.createElement('button');
                 btnBorrar.classList.add('delete-btn', 'icon-btn');
-                btnBorrar.dataset.index = registros.indexOf(registro); 
-                btnBorrar.innerHTML = '<i class="fas fa-trash-alt"></i>'; 
+                btnBorrar.dataset.index = registros.indexOf(registro);
+                btnBorrar.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
                 divAcciones.appendChild(btnEditar);
                 divAcciones.appendChild(btnBorrar);
@@ -1003,9 +1046,9 @@
 
                 const btnNota = document.createElement('button');
                 btnNota.classList.add('note-btn', 'icon-btn');
-                btnNota.dataset.index = registros.indexOf(registro); 
-                btnNota.innerHTML = '<i class="fas fa-sticky-note"></i>'; 
-                btnNota.title = 'Ver/Editar Nota'; 
+                btnNota.dataset.index = registros.indexOf(registro);
+                btnNota.innerHTML = '<i class="fas fa-sticky-note"></i>';
+                btnNota.title = 'Ver/Editar Nota';
                 btnNota.addEventListener('click', (e) => {
                     openNoteModal(parseInt(e.currentTarget.dataset.index));
                 });
@@ -1017,7 +1060,7 @@
                 fila.appendChild(celdaMonto);
                 fila.appendChild(celdaTipo);
                 fila.appendChild(celdaAcciones);
-                fila.appendChild(celdaNota); 
+                fila.appendChild(celdaNota);
                 tablaRegistros.appendChild(fila);
             });
 
@@ -1044,15 +1087,16 @@
             }
 
             generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
-            updateUndoButtonState(); 
-            guardarRegistros(); 
+            updateUndoButtonState();
+            guardarRegistros();
+            renderMonthlyReport(); // Llamar a la función para generar el informe mensual
         }
 
 
         function guardarRegistros() {
             localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(registros));
-            localStorage.setItem(KEY_TOTAL_PENDIENTE_AJUSTADO, Math.max(0, totalPendienteAjustado).toFixed(2)); 
-            localStorage.setItem(KEY_TOTAL_PAGADO_AJUSTADO, Math.max(0, totalPagadoAjustado).toFixed(2)); 
+            localStorage.setItem(KEY_TOTAL_PENDIENTE_AJUSTADO, Math.max(0, totalPendienteAjustado).toFixed(2));
+            localStorage.setItem(KEY_TOTAL_PAGADO_AJUSTADO, Math.max(0, totalPagadoAjustado).toFixed(2));
         }
 
         // --- Funciones para el Modal de Nota ---
@@ -1064,14 +1108,14 @@
 
         function closeNoteModal() {
             noteDetailModal.style.display = 'none';
-            currentNoteIndex = -1; 
+            currentNoteIndex = -1;
         }
 
         function saveNoteFromModal() {
             if (currentNoteIndex !== -1 && registros[currentNoteIndex]) {
-                saveState(); 
+                saveState();
                 registros[currentNoteIndex].nota = noteContentInput.value;
-                guardarRegistros(); 
+                guardarRegistros();
                 closeNoteModal();
                 generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
             }
@@ -1086,7 +1130,7 @@
             currentMonthYearSpan.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
 
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            let firstDayOfWeek = date.getDay(); 
+            let firstDayOfWeek = date.getDay();
 
             firstDayOfWeek = (firstDayOfWeek === 0) ? 6 : firstDayOfWeek - 1;
 
@@ -1124,7 +1168,7 @@
                 if (hasPending) {
                     dayDiv.classList.add('pending-day');
                 }
-                if (hasNoteForDay) { 
+                if (hasNoteForDay) {
                     dayDiv.classList.add('day-with-note');
                 }
 
@@ -1146,7 +1190,7 @@
         function showGenericMessage(title, message, isConfirm, callback) {
             document.getElementById('genericMessageTitle').textContent = title;
             document.getElementById('genericMessageText').textContent = message;
-            
+
             const confirmBtn = document.getElementById('genericMessageConfirmBtn');
             const cancelBtn = document.getElementById('genericMessageCancelBtn');
 
@@ -1187,7 +1231,7 @@
             const tipoRegistro = esCompleto ? 'completo' : 'pendiente';
 
             if (fecha && !isNaN(monto) && monto >= 0) {
-                let stateChanged = false; 
+                let stateChanged = false;
 
                 if (agregarBtn.textContent === 'Actualizar Registro') {
                     const index = parseInt(agregarBtn.dataset.editIndex);
@@ -1203,38 +1247,38 @@
                         totalPagadoAjustado -= parseFloat(oldRegistro.monto); // Resta el monto anterior del total pagado
                         stateChanged = true;
                     } else if (oldRegistro.tipo === 'pendiente' && tipoRegistro === 'pendiente') {
-                        if (parseFloat(oldRegistro.monto) !== monto) { 
-                            totalPendienteAjustado -= parseFloat(oldRegistro.monto); 
-                            totalPendienteAjustado += monto; 
+                        if (parseFloat(oldRegistro.monto) !== monto) {
+                            totalPendienteAjustado -= parseFloat(oldRegistro.monto);
+                            totalPendienteAjustado += monto;
                             stateChanged = true;
                         }
                     } else if (oldRegistro.tipo === 'completo' && tipoRegistro === 'completo') {
                         if (parseFloat(oldRegistro.monto) !== monto) {
                             totalPagadoAjustado -= parseFloat(oldRegistro.monto); // Resta el monto anterior
                             totalPagadoAjustado += monto; // Suma el nuevo monto
-                            stateChanged = true; 
+                            stateChanged = true;
                         }
                     }
 
-                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado);
                     totalPagadoAjustado = Math.max(0, totalPagadoAjustado);
 
-                    registros[index] = { 
-                        fecha: fecha, 
-                        monto: monto, 
-                        tipo: tipoRegistro, 
+                    registros[index] = {
+                        fecha: fecha,
+                        monto: monto,
+                        tipo: tipoRegistro,
                         nota: oldRegistro.nota || '',
-                        isCheckedForSelection: oldRegistro.isCheckedForSelection || false 
-                    }; 
+                        isCheckedForSelection: oldRegistro.isCheckedForSelection || false
+                    };
 
                     agregarBtn.textContent = 'Agregar Registro';
                     agregarBtn.classList.remove('add-button');
                     agregarBtn.classList.add('update-button');
                     delete agregarBtn.dataset.editIndex;
                 } else { // Agregando un nuevo registro
-                    registros.push({ fecha, monto, tipo: tipoRegistro, nota: '', isCheckedForSelection: false }); 
+                    registros.push({ fecha, monto, tipo: tipoRegistro, nota: '', isCheckedForSelection: false });
                     if (tipoRegistro === 'pendiente') {
-                        totalPendienteAjustado += monto; 
+                        totalPendienteAjustado += monto;
                     } else if (tipoRegistro === 'completo') {
                         totalPagadoAjustado += monto; // Suma al total pagado si es un pago completo
                     }
@@ -1242,9 +1286,9 @@
                 }
 
                 if (stateChanged) {
-                    saveState(); 
+                    saveState();
                 }
-                applyCurrentFilterAndLoadRecords(); 
+                applyCurrentFilterAndLoadRecords();
                 fechaInput.value = '';
                 montoInput.value = '';
                 esPagoCompletoCheckbox.checked = true;
@@ -1260,19 +1304,19 @@
                     localStorage.removeItem(KEY_TOTAL_PENDIENTE_AJUSTADO);
                     localStorage.removeItem(KEY_TOTAL_PAGADO_AJUSTADO);
                     registros = [];
-                    totalPendienteAjustado = 0; 
-                    totalPagadoAjustado = 0; 
-                    history = []; 
+                    totalPendienteAjustado = 0;
+                    totalPagadoAjustado = 0;
+                    history = [];
                     historyPointer = -1;
-                    saveState(); 
+                    saveState();
                     filterStartDateInput.value = '';
                     filterEndDateInput.value = '';
-                    applyCurrentFilterAndLoadRecords(); 
+                    applyCurrentFilterAndLoadRecords();
                 }
             });
         });
 
-        undoBtn.addEventListener('click', undoAction); 
+        undoBtn.addEventListener('click', undoAction);
 
         goToHistorialBtn.addEventListener('click', () => {
             document.getElementById('historialSection').scrollIntoView({ behavior: 'smooth' });
@@ -1280,8 +1324,8 @@
 
         tablaRegistros.addEventListener('click', (event) => {
             const target = event.target;
-            const btn = target.closest('.icon-btn'); 
-            const index = btn ? btn.dataset.index : undefined; 
+            const btn = target.closest('.icon-btn');
+            const index = btn ? btn.dataset.index : undefined;
 
             if (btn && btn.classList.contains('edit-btn') && index !== undefined) {
                 editarRegistro(parseInt(index));
@@ -1294,9 +1338,9 @@
             if (event.target.classList.contains('select-pending-checkbox')) {
                 const index = parseInt(event.target.dataset.index);
                 if (registros[index]) {
-                    saveState(); 
+                    saveState();
                     registros[index].isCheckedForSelection = event.target.checked;
-                    guardarRegistros(); 
+                    guardarRegistros();
                 }
             }
         });
@@ -1311,23 +1355,23 @@
 
             showGenericMessage('Confirmar Marcar Pagado', `¿Estás seguro de que quieres marcar ${selectedCheckboxesForMarkingPaid.length} pago(s) pendiente(s) como PAGADO(S)?\n\nEsta acción solo cambiará el estado visual de los registros. Los totales no serán ajustados automáticamente por esta acción.`, true, (confirmed) => {
                 if (confirmed) {
-                    saveState(); 
+                    saveState();
                     let stateChanged = false;
 
                     selectedCheckboxesForMarkingPaid.forEach(checkbox => {
                         const index = parseInt(checkbox.dataset.index);
                         if (registros[index] && registros[index].tipo === 'pendiente') {
-                            registros[index].tipo = 'completo'; 
-                            registros[index].isCheckedForSelection = false; 
+                            registros[index].tipo = 'completo';
+                            registros[index].isCheckedForSelection = false;
                             stateChanged = true;
                         }
                     });
-                    
+
                     if (stateChanged) {
-                        applyCurrentFilterAndLoadRecords(); 
+                        applyCurrentFilterAndLoadRecords();
                         showGenericMessage('Éxito', 'Los pagos seleccionados han sido marcados como pagados. Los totales no han sido ajustados por esta acción.', false, null);
                     }
-                    selectedCheckboxesForMarkingPaid = []; 
+                    selectedCheckboxesForMarkingPaid = [];
                 }
             });
         });
@@ -1352,30 +1396,30 @@
 
             showGenericMessage('Confirmar Borrar Registro', `¿Estás seguro de que quieres borrar el registro del ${formatearFecha(registroBorrado.fecha)} de ${tipoRegistro} por ${formatearMonto(registroBorrado.monto)}?`, true, (confirmed) => {
                 if (confirmed) {
-                    saveState(); 
-                    
+                    saveState();
+
                     if (registroBorrado.tipo === 'pendiente') {
                         totalPendienteAjustado -= parseFloat(registroBorrado.monto);
-                    } else if (registroBorrado.tipo === 'completo') { 
+                    } else if (registroBorrado.tipo === 'completo') {
                         totalPagadoAjustado -= parseFloat(registroBorrado.monto);
                     }
-                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado);
                     totalPagadoAjustado = Math.max(0, totalPagadoAjustado);
 
                     registros.splice(index, 1);
-                    applyCurrentFilterAndLoadRecords(); 
+                    applyCurrentFilterAndLoadRecords();
                 }
             });
         }
 
         aplicarDescuentoBtn.addEventListener('click', () => {
             modalTotalPendienteActualSpan.textContent = formatearMonto(totalPendienteAjustado);
-            montoAbonoDescuentoInput.value = ''; 
-            discountModal.style.display = 'block'; 
+            montoAbonoDescuentoInput.value = '';
+            discountModal.style.display = 'block';
         });
 
         modalDiscountCancelarBtn.addEventListener('click', () => {
-            discountModal.style.display = 'none'; 
+            discountModal.style.display = 'none';
         });
 
         modalDiscountConfirmarBtn.addEventListener('click', () => {
@@ -1392,22 +1436,22 @@
 
             showGenericMessage('Confirmar Descuento', `¿Aplicar un abono/descuento de ${formatearMonto(montoDescuento)} al Total Pendiente?`, true, (confirmed) => {
                 if (confirmed) {
-                    saveState(); 
-                    totalPendienteAjustado -= montoDescuento; 
-                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado); 
+                    saveState();
+                    totalPendienteAjustado -= montoDescuento;
+                    totalPendienteAjustado = Math.max(0, totalPendienteAjustado);
 
-                    totalPagadoAjustado += montoDescuento; 
+                    totalPagadoAjustado += montoDescuento;
 
-                    applyCurrentFilterAndLoadRecords(); 
+                    applyCurrentFilterAndLoadRecords();
 
-                    discountModal.style.display = 'none'; 
+                    discountModal.style.display = 'none';
                     showGenericMessage('Descuento Aplicado', `Se ha aplicado un abono/descuento de ${formatearMonto(montoDescuento)}. Nuevo Total Pendiente: ${formatearMonto(totalPendienteAjustado)}.`, false, null);
                 }
             });
         });
 
         editTotalsBtn.addEventListener('click', () => {
-            editTotalPagadoInput.value = totalPagadoAjustado.toFixed(2); 
+            editTotalPagadoInput.value = totalPagadoAjustado.toFixed(2);
             editTotalPendienteInput.value = totalPendienteAjustado.toFixed(2);
             editTotalsModal.style.display = 'block';
         });
@@ -1417,7 +1461,7 @@
         });
 
         modalEditTotalsConfirmarBtn.addEventListener('click', () => {
-            const newTotalPagadoDisplay = parseFloat(editTotalPagadoInput.value); 
+            const newTotalPagadoDisplay = parseFloat(editTotalPagadoInput.value);
             const newTotalPendiente = parseFloat(editTotalPendienteInput.value);
 
             if (isNaN(newTotalPagadoDisplay) || newTotalPagadoDisplay < 0 || isNaN(newTotalPendiente) || newTotalPendiente < 0) {
@@ -1427,12 +1471,12 @@
 
             showGenericMessage('Confirmar Edición de Totales', `¿Estás seguro de guardar los nuevos totales?\nTotal Pagado: ${formatearMonto(newTotalPagadoDisplay)}\nTotal Pendiente: ${formatearMonto(newTotalPendiente)}`, true, (confirmed) => {
                 if (confirmed) {
-                    saveState(); 
-                    
-                    totalPendienteAjustado = newTotalPendiente; 
-                    totalPagadoAjustado = newTotalPagadoDisplay; 
+                    saveState();
 
-                    applyCurrentFilterAndLoadRecords(); 
+                    totalPendienteAjustado = newTotalPendiente;
+                    totalPagadoAjustado = newTotalPagadoDisplay;
+
+                    applyCurrentFilterAndLoadRecords();
 
                     editTotalsModal.style.display = 'none';
                     showGenericMessage('Éxito', 'Totales actualizados correctamente.', false, null);
@@ -1447,7 +1491,7 @@
             if (event.target === editTotalsModal) {
                 editTotalsModal.style.display = 'none';
             }
-            if (event.target === noteDetailModal) { 
+            if (event.target === noteDetailModal) {
                 closeNoteModal();
             }
             if (event.target === document.getElementById('genericMessageModal')) {
@@ -1476,7 +1520,7 @@
         function toggleCalendarVisibility() {
             const isVisible = calendarSection.classList.toggle('visible');
             toggleCalendarBtn.textContent = isVisible ? 'Ocultar Calendario' : 'Mostrar Calendario';
-            localStorage.setItem(KEY_CALENDAR_VISIBLE, isVisible); 
+            localStorage.setItem(KEY_CALENDAR_VISIBLE, isVisible);
         }
 
         toggleCalendarBtn.addEventListener('click', toggleCalendarVisibility);
@@ -1492,7 +1536,7 @@
 
         // --- Lógica del botón Volver al Inicio ---
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 200) { 
+            if (window.pageYOffset > 200) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
@@ -1502,13 +1546,101 @@
         backToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth' 
+                behavior: 'smooth'
             });
         });
 
+        // --- Función para generar y mostrar el informe mensual ---
+        function generateMonthlyReportData() {
+            const monthlyData = {};
+            registros.forEach(registro => {
+                const fecha = new Date(registro.fecha + 'T00:00:00');
+                const year = fecha.getFullYear();
+                const month = fecha.getMonth();
+                const monthYearKey = `${year}-${month}`;
+                const monthYearFormatted = fecha.toLocaleString('es-CL', { year: 'numeric', month: 'long' });
+
+                if (!monthlyData[monthYearKey]) {
+                    monthlyData[monthYearKey] = {
+                        formatted: monthYearFormatted,
+                        totalPagado: 0,
+                        totalPendiente: 0,
+                        details: []
+                    };
+                }
+
+                if (registro.tipo === 'completo') {
+                    monthlyData[monthYearKey].totalPagado += parseFloat(registro.monto);
+                } else if (registro.tipo === 'pendiente') {
+                    monthlyData[monthYearKey].totalPendiente += parseFloat(registro.monto);
+                }
+                monthlyData[monthYearKey].details.push(registro);
+            });
+            return Object.values(monthlyData).sort((a, b) => {
+                const [yearA, monthA] = a.formatted.split(' ').slice(-2);
+                const [yearB, monthB] = b.formatted.split(' ').slice(-2);
+                const dateA = new Date(`${monthA} 1, ${yearA}`);
+                const dateB = new Date(`${monthB} 1, ${yearB}`);
+                return dateB - dateA; // Ordenar por fecha descendente
+            });
+        }
+
+        function renderMonthlyReport() {
+            const reportData = generateMonthlyReportData();
+            const historialSection = document.getElementById('historialSection');
+            let reportDiv = document.getElementById('monthlyReportSection');
+
+            if (!reportDiv) {
+                reportDiv = document.createElement('div');
+                reportDiv.id = 'monthlyReportSection';
+                historialSection.parentNode.insertBefore(reportDiv, historialSection);
+            }
+            reportDiv.innerHTML = '<h2>Informe Mensual</h2>';
+
+            if (reportData.length === 0) {
+                reportDiv.innerHTML += '<p>No hay registros para mostrar en el informe mensual.</p>';
+                return;
+            }
+
+            reportData.forEach(monthData => {
+                const monthSummary = document.createElement('div');
+                monthSummary.classList.add('monthly-summary');
+                monthSummary.innerHTML = `<h3>${monthData.formatted}</h3>
+                                           <p>Total Pagado: ${formatearMonto(monthData.totalPagado)}</p>
+                                           <p>Total Pendiente: ${formatearMonto(monthData.totalPendiente)}</p>
+                                           <button class="toggle-details-btn" data-month-key="${monthData.formatted.replace(' ', '-')}">Mostrar Detalles</button>
+                                           <div id="details-${monthData.formatted.replace(' ', '-')}" class="monthly-details" style="display:none;"></div>`;
+                reportDiv.appendChild(monthSummary);
+            });
+
+            // Event listeners para mostrar/ocultar detalles
+            document.querySelectorAll('.toggle-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const monthKey = this.dataset.monthKey;
+                    const detailsDiv = document.getElementById(`details-${monthKey}`);
+                    const monthData = reportData.find(md => md.formatted.replace(' ', '-') === monthKey);
+
+                    if (detailsDiv.style.display === 'none') {
+                        detailsDiv.style.display = 'block';
+                        this.textContent = 'Ocultar Detalles';
+                        detailsDiv.innerHTML = '<table class="monthly-details-table"><thead><tr><th>Fecha</th><th>Monto</th><th>Tipo</th><th>Nota</th></tr></thead><tbody>';
+                        monthData.details.forEach(detail => {
+                            detailsDiv.innerHTML += `<tr><td>${formatearFecha(detail.fecha)}</td><td>${formatearMonto(detail.monto)}</td><td>${detail.tipo === 'completo' ? 'Pagado' : 'Pendiente'}</td><td>${detail.nota || '-'}</td></tr>`;
+                        });
+                        detailsDiv.innerHTML += '</tbody></table>';
+                    } else {
+                        detailsDiv.style.display = 'none';
+                        this.textContent = 'Mostrar Detalles';
+                        detailsDiv.innerHTML = ''; // Limpiar los detalles al ocultar
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            cargarRegistros(); 
+            cargarRegistros();
             generarCalendario(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+            renderMonthlyReport(); // Asegurar que el informe se genere al cargar la página
 
             const calendarWasVisible = localStorage.getItem(KEY_CALENDAR_VISIBLE) === 'true';
             if (calendarWasVisible) {
@@ -1542,4 +1674,3 @@
 
 </body>
 </html>
-
