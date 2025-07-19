@@ -549,6 +549,7 @@
             max-width: 500px;
             display: flex;
             justify-content: center;
+            gap: 10px; /* Espacio entre botones de filtro */
         }
         .filter-toggle-button {
             background-color: #17a2b8;
@@ -558,6 +559,20 @@
         }
         .filter-toggle-button:hover {
             background-color: #138496;
+        }
+        .minimize-table-button {
+            background-color: #6c757d;
+            width: fit-content;
+            padding: 10px 20px;
+            font-size: 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .minimize-table-button:hover {
+            background-color: #5a6268;
         }
 
         .filter-content-container {
@@ -717,6 +732,7 @@
         <h2>Filtro de Registros</h2>
         <div class="filter-toggle-container">
             <button id="toggleFilterBtn" class="filter-toggle-button">Mostrar Filtro</button>
+            <button id="minimizeTableBtn" class="minimize-table-button">Minimizar Tabla</button>
         </div>
         <div class="filter-content-container" id="filterContentSection">
             <div class="form-group">
@@ -731,7 +747,7 @@
             <button id="clearFilterBtn" class="clear-filter-button">Limpiar Filtro</button>
         </div>
 
-        <table>
+        <table id="registrosTable">
             <thead>
                 <tr>
                     <th>Sel.</th>
@@ -833,6 +849,7 @@
         const undoBtn = document.getElementById('undoBtn');
         const goToHistorialBtn = document.getElementById('goToHistorialBtn');
         const tablaRegistros = document.getElementById('tablaRegistros');
+        const registrosTable = document.getElementById('registrosTable');
         const totalPagadoSpan = document.getElementById('totalPagado');
         const totalPendienteSpan = document.getElementById('totalPendiente');
         const marcarSeleccionadosPagadosBtn = document.getElementById('marcarSeleccionadosPagados');
@@ -873,6 +890,7 @@
         const clearFilterBtn = document.getElementById('clearFilterBtn');
         const totalPagadoFilterLabel = document.getElementById('totalPagadoFilterLabel');
         const totalPendienteFilterLabel = document.getElementById('totalPendienteFilterLabel');
+        const minimizeTableBtn = document.getElementById('minimizeTableBtn');
 
         const toggleFilterBtn = document.getElementById('toggleFilterBtn');
         const filterContentSection = document.getElementById('filterContentSection');
@@ -888,12 +906,14 @@
         const KEY_CALENDAR_VISIBLE = 'calendarVisible';
         const KEY_FILTER_VISIBLE = 'filterVisible';
         const KEY_CALENDAR_MINIMIZED = 'calendarMinimized';
+        const KEY_TABLE_MINIMIZED = 'tableMinimized';
 
         let registros = [];
         let totalPendienteAjustado = 0;
         let totalPagadoAjustado = 0;
         let currentCalendarDate = new Date();
         let isCalendarMinimized = false;
+        let isTableMinimized = false;
 
         // --- Variables para el Historial (Deshacer) ---
         let history = [];
@@ -921,6 +941,12 @@
             return date.toLocaleString('es-CL', { year: 'numeric', month: 'long' });
         }
 
+        function compararFechas(fechaStr1, fechaStr2) {
+            const date1 = new Date(fechaStr1 + 'T00:00:00');
+            const date2 = new Date(fechaStr2 + 'T00:00:00');
+            return date1.getTime() - date2.getTime();
+        }
+
         // --- Funciones de Gestión de Historial (Deshacer) ---
 
         function saveState() {
@@ -931,7 +957,8 @@
             const currentState = {
                 registros: JSON.parse(JSON.stringify(registros)),
                 totalPendienteAjustado: totalPendienteAjustado,
-                totalPagadoAjustado: totalPagadoAjustado
+                totalPagadoAjustado: totalPagadoAjustado,
+                isTableMinimized: isTableMinimized
             };
             history.push(currentState);
             historyPointer++;
@@ -947,9 +974,11 @@
             registros = JSON.parse(JSON.stringify(state.registros));
             totalPendienteAjustado = state.totalPendienteAjustado;
             totalPagadoAjustado = state.totalPagadoAjustado;
+            isTableMinimized = state.isTableMinimized || false;
 
             applyCurrentFilterAndLoadRecords();
             updateUndoButtonState();
+            updateTableMinimizeButtonText();
         }
 
         function undoAction() {
@@ -990,11 +1019,13 @@
                 registros = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE)) || [];
                 totalPendienteAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PENDIENTE_AJUSTADO)) || 0;
                 totalPagadoAjustado = parseFloat(localStorage.getItem(KEY_TOTAL_PAGADO_AJUSTADO)) || 0;
+                isTableMinimized = localStorage.getItem(KEY_TABLE_MINIMIZED) === 'true' || false;
                 saveState();
             } else if (history.length === 0) {
                 registros = [];
                 totalPendienteAjustado = 0;
                 totalPagadoAjustado = 0;
+                isTableMinimized = false;
                 saveState();
             }
             applyCurrentFilterAndLoadRecords();
@@ -1003,28 +1034,51 @@
         function applyCurrentFilterAndLoadRecords() {
             const startDate = filterStartDateInput.value ? new Date(filterStartDateInput.value + 'T00:00:00') : null;
             const endDate = filterEndDateInput.value ? new Date(filterEndDateInput.value + 'T23:59:59') : null;
+            const currentDate = new Date();
+            const currentDay = currentDate.getDate();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
 
             let filteredRegistros = registros;
             let isFilterActive = false;
 
-            if (startDate && endDate) {
+            if (isTableMinimized) {
+                const today = new Date(currentYear, currentMonth, currentDay);
+                const twoDaysBefore = new Date(today);
+                twoDaysBefore.setDate(today.getDate() - 2);
+                const twoDaysAfter = new Date(today);
+                twoDaysAfter.setDate(today.getDate() + 2);
+
+                filteredRegistros = registros.filter(registro => {
+                    const recordDate = new Date(registro.fecha + 'T00:00:00');
+                    return recordDate >= twoDaysBefore && recordDate <= twoDaysAfter;
+                }).sort((a, b) => compararFechas(a.fecha, b.fecha));
+
+                // Ensure at most 5 days are shown, even if the initial filter gives more
+                if (filteredRegistros.length > 5) {
+                    filteredRegistros = filteredRegistros.slice(0, 5);
+                }
+
+            } else if (startDate && endDate) {
                 filteredRegistros = registros.filter(registro => {
                     const recordDate = new Date(registro.fecha + 'T00:00:00');
                     return recordDate >= startDate && recordDate <= endDate;
-                });
+                }).sort((a, b) => compararFechas(a.fecha, b.fecha));
                 isFilterActive = true;
             } else if (startDate) {
                 filteredRegistros = registros.filter(registro => {
                     const recordDate = new Date(registro.fecha + 'T00:00:00');
                     return recordDate >= startDate;
-                });
+                }).sort((a, b) => compararFechas(a.fecha, b.fecha));
                 isFilterActive = true;
             } else if (endDate) {
                 filteredRegistros = registros.filter(registro => {
                     const recordDate = new Date(registro.fecha + 'T00:00:00');
                     return recordDate <= endDate;
-                });
+                }).sort((a, b) => compararFechas(a.fecha, b.fecha));
                 isFilterActive = true;
+            } else {
+                filteredRegistros = registros.sort((a, b) => compararFechas(a.fecha, b.fecha));
             }
 
             tablaRegistros.innerHTML = '';
@@ -1104,7 +1158,11 @@
             if (isFilterActive) {
                 totalPagadoFilterLabel.textContent = ' (Filtrado)';
                 totalPendienteFilterLabel.textContent = ' (Filtrado)';
-            } else {
+            } else if (isTableMinimized) {
+                totalPagadoFilterLabel.textContent = ' (Minimizado)';
+                totalPendienteFilterLabel.textContent = ' (Minimizado)';
+            }
+            else {
                 totalPagadoFilterLabel.textContent = '';
                 totalPendienteFilterLabel.textContent = '';
             }
@@ -1129,6 +1187,7 @@
             localStorage.setItem(KEY_TOTAL_PENDIENTE_AJUSTADO, Math.max(0, totalPendienteAjustado).toFixed(2));
             localStorage.setItem(KEY_TOTAL_PAGADO_AJUSTADO, Math.max(0, totalPagadoAjustado).toFixed(2));
             localStorage.setItem(KEY_CALENDAR_MINIMIZED, isCalendarMinimized);
+            localStorage.setItem(KEY_TABLE_MINIMIZED, isTableMinimized);
         }
 
         // --- Funciones para el Modal de Nota ---
@@ -1216,7 +1275,8 @@
                     calendarContainer.appendChild(dayDiv);
                 }
             } else {
-                const currentDay = new Date().getDate();
+                const currentDate = new Date();
+                const currentDay = currentDate.getDate();
                 let startDay = Math.max(1, currentDay - 2);
                 let endDay = Math.min(daysInMonth, currentDay + 2);
 
@@ -1378,6 +1438,7 @@
                     localStorage.removeItem(KEY_TOTAL_PENDIENTE_AJUSTADO);
                     localStorage.removeItem(KEY_TOTAL_PAGADO_AJUSTADO);
                     localStorage.removeItem(KEY_CALENDAR_MINIMIZED);
+                    localStorage.removeItem(KEY_TABLE_MINIMIZED);
                     registros = [];
                     totalPendienteAjustado = 0;
                     totalPagadoAjustado = 0;
@@ -1388,6 +1449,8 @@
                     filterEndDateInput.value = '';
                     applyCurrentFilterAndLoadRecords();
                     isCalendarMinimized = false;
+                    isTableMinimized = false;
+                    updateTableMinimizeButtonText();
                     calendarContainer.classList.remove('minimized');
                 }
             });
@@ -1743,6 +1806,32 @@
             }
         });
 
+        function minimizeTable() {
+            isTableMinimized = true;
+            applyCurrentFilterAndLoadRecords();
+            updateTableMinimizeButtonText();
+            guardarRegistros();
+        }
+
+        function restoreTable() {
+            isTableMinimized = false;
+            applyCurrentFilterAndLoadRecords();
+            updateTableMinimizeButtonText();
+            guardarRegistros();
+        }
+
+        function updateTableMinimizeButtonText() {
+            minimizeTableBtn.textContent = isTableMinimized ? 'Mostrar Todo' : 'Minimizar Tabla';
+        }
+
+        minimizeTableBtn.addEventListener('click', () => {
+            if (isTableMinimized) {
+                restoreTable();
+            } else {
+                minimizeTable();
+            }
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             cargarRegistros();
@@ -1750,6 +1839,7 @@
             const month = currentCalendarDate.getMonth();
             generarCalendario(year, month);
             renderMonthlyReport(); // Asegurar que el informe se genere al cargar la página
+            updateTableMinimizeButtonText();
 
             const calendarWasVisible = localStorage.getItem(KEY_CALENDAR_VISIBLE) === 'true';
             if (calendarWasVisible) {
@@ -1773,6 +1863,10 @@
             if (calendarWasMinimized) {
                 minimizeCalendar();
                 minimizeCalendarBtn.textContent = 'Mostrar Todo';
+            }
+
+            if (localStorage.getItem(KEY_TABLE_MINIMIZED) === 'true') {
+                minimizeTable();
             }
         });
 
