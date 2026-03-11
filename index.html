@@ -48,12 +48,10 @@
 </head>
 <body class="font-sans text-slate-900 pb-32 selection:bg-primary selection:text-white">
 
-<!-- UI Elements -->
 <div id="toast-container"></div>
 <div id="modalOverlay" class="overlay fixed inset-0 z-[100] bg-slate-900/60" onclick="App.closeAll()"></div>
 <div id="sync-ui" class="sync-status"><div id="sync-dot" class="sync-dot"></div><span id="sync-text">Desconectado</span></div>
 
-<!-- DRAWER CONFIGURACIÓN -->
 <div id="drawerConfig" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] p-8 shadow-2xl">
     <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
     <h3 class="font-black text-xl text-center uppercase tracking-tight mb-2">Configuración</h3>
@@ -66,11 +64,12 @@
         <button onclick="Store.connect()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black uppercase text-[10px] tracking-widest">Guardar y Conectar</button>
         
         <p class="text-xs text-slate-400 font-bold uppercase px-2 mt-6">Datos</p>
-        <button onclick="App.openDrawer('drawerArchivos'); Archives.render();" class="w-full py-4 bg-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"><i data-lucide="archive" class="w-4 h-4"></i> Ver Archivos</button>
+        <button onclick="App.openDrawer('drawerArchivos'); Archives.render();" class="w-full py-4 bg-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 mb-2"><i data-lucide="archive" class="w-4 h-4"></i> Ver Archivos</button>
+        
+        <button onclick="Store.clearAllLocalData()" class="w-full py-4 bg-red-50 text-danger border border-red-100 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"><i data-lucide="trash-2" class="w-4 h-4"></i> Borrar Todo (Local)</button>
     </div>
 </div>
 
-<!-- DRAWER ARCHIVOS -->
 <div id="drawerArchivos" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] p-6 shadow-2xl">
     <div class="w-full pt-2 pb-4"><div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto"></div></div>
     <h3 class="font-black text-xl text-center uppercase tracking-tight mb-4">Archivos Históricos</h3>
@@ -78,7 +77,6 @@
     <div id="listaArchivos" class="space-y-2 overflow-y-auto max-h-[60vh]"></div>
 </div>
 
-<!-- FORMULARIO STOCK -->
 <div id="drawerInvForm" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] shadow-2xl">
     <div class="w-full pt-4 pb-2" onclick="App.closeAll()"><div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto"></div></div>
     <div class="px-8 pb-4 flex justify-between items-center">
@@ -98,7 +96,6 @@
     </div>
 </div>
 
-<!-- MODAL ABONO -->
 <div id="modalAbono" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] p-8 shadow-2xl">
     <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
     <h3 class="font-black text-xl text-center uppercase tracking-tight mb-1">Registrar Pago</h3>
@@ -114,7 +111,6 @@
     </div>
 </div>
 
-<!-- DRAWER CLIENTES -->
 <div id="drawerClientes" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] p-6 shadow-2xl">
     <div class="w-full pt-2 pb-4"><div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto"></div></div>
     <div class="relative mb-4"><i data-lucide="search" class="absolute left-5 top-4 w-5 h-5 text-slate-300"></i><input type="text" id="searchCliente" placeholder="Buscar Cliente..." class="w-full rounded-2xl border-slate-100 bg-slate-50 h-14 font-bold pl-12 pr-5 uppercase text-sm" oninput="Clients.filter()"></div>
@@ -122,14 +118,12 @@
     <button onclick="Clients.createManual()" class="w-full mt-4 p-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-black uppercase text-[10px] tracking-widest hover:border-primary hover:text-primary">+ Crear Nuevo Cliente</button>
 </div>
 
-<!-- DRAWER PRODUCTOS -->
 <div id="drawerProductos" class="drawer fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[2.5rem] p-6 shadow-2xl">
     <div class="w-full pt-2 pb-4"><div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto"></div></div>
     <div class="flex justify-between items-center mb-4 px-2"><h3 class="font-black text-lg uppercase tracking-tight" id="drawerProductTitle">Seleccionar</h3><button onclick="if(Sales.state.catSel && !Sales.state.subSelId) Sales.resetSelection(); else App.closeAll()" class="text-xs font-bold text-slate-400 uppercase">Atrás</button></div>
     <div id="listaProductosDrawer" class="space-y-2 overflow-y-auto max-h-[60vh]"></div>
 </div>
 
-<!-- HEADER -->
 <header class="bg-white/90 backdrop-blur-md px-6 py-5 sticky top-0 z-50 border-b border-slate-100 text-center flex justify-between items-center">
     <div class="w-8"></div>
     <div>
@@ -139,9 +133,7 @@
     <button onclick="App.openDrawer('drawerConfig')" class="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-primary"><i data-lucide="settings" class="w-5 h-5"></i></button>
 </header>
 
-<!-- MAIN CONTENT -->
 <main class="px-4 mt-6 space-y-8 pb-10 min-h-screen">
-    <!-- VIEW HOME -->
     <section id="view-home" class="view-section active space-y-8">
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-cyan-400"></div>
@@ -156,7 +148,6 @@
         <div class="space-y-4"><h3 class="font-black text-slate-800 px-2 uppercase text-[10px] tracking-widest text-center">📜 MOVIMIENTOS RECIENTES</h3><div id="list-ventas" class="space-y-3"></div></div>
     </section>
     
-    <!-- VIEW INVENTORY -->
     <section id="view-inventory" class="view-section space-y-6">
         <div class="grid grid-cols-2 gap-3 text-center">
             <div class="bg-slate-900 p-5 rounded-3xl text-white shadow-lg"><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Valor Stock</p><h4 class="text-lg font-black" id="inv-total-valor">$0</h4></div>
@@ -167,13 +158,11 @@
         <button onclick="Inventory.openForm()" class="fab shadow-xl"><i data-lucide="plus" class="w-8 h-8"></i></button>
     </section>
 
-    <!-- VIEW CLIENTS -->
     <section id="view-clients" class="view-section space-y-6">
         <div class="relative"><i data-lucide="search" class="absolute left-5 top-4 w-5 h-5 text-slate-300"></i><input type="text" id="clientSearch" placeholder="Buscar en historial..." class="w-full rounded-2xl border-none bg-white h-14 font-bold shadow-sm pl-12 pr-5 text-sm" oninput="Clients.renderBase()"></div>
         <div id="lista-base-clientes" class="space-y-4 pb-20"></div>
     </section>
 
-    <!-- VIEW SALES -->
     <section id="view-sales" class="view-section space-y-6">
         <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm relative">
             <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Nueva Venta</div>
@@ -204,7 +193,6 @@
         </div>
     </section>
 
-    <!-- FOOTER SIGNATURE -->
     <footer class="text-center py-8 opacity-40">
         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">CarlosPN Interactive® — 2026</p>
         <p class="text-[8px] font-bold uppercase tracking-wide text-slate-300 mt-1">Sistema Profesional de Gestión</p>
@@ -219,9 +207,6 @@
 </nav>
 
 <script>
-    /**
-     * CONFIGURACIÓN: PEGA AQUÍ TU URL DE GOOGLE SCRIPT
-     */
     const API_URL = "https://script.google.com/macros/s/AKfycbyDwAXA7wL_FE2ZxKOaRE2ztLzcups8jB6XNHHOw5XUMZPK65SaKYYuelqNjmv1T70/exec";
 
     const Utils = {
@@ -251,6 +236,20 @@
             localStorage.setItem('api_url', url);
             App.closeAll();
             Store.fetchData(url);
+        },
+        clearAllLocalData: () => {
+            const c1 = confirm("¿BORRAR TODO? Se eliminarán inventarios, clientes y ventas de este dispositivo.");
+            if(c1) {
+                const c2 = confirm("¡ÚLTIMO AVISO! Esta acción no se puede deshacer si no tienes respaldo en la nube.");
+                if(c2) {
+                    localStorage.clear();
+                    Store.data = { inv: [], deu: [], hist: [], archived: [], caja: { ef: 0, tj: 0 }, clients: [] };
+                    App.renderDashboard();
+                    App.closeAll();
+                    Utils.toast("Datos locales eliminados", "success");
+                    setTimeout(() => location.reload(), 1000);
+                }
+            }
         },
         uiStatus: (status) => {
             const ui = document.getElementById('sync-ui'), dot = document.getElementById('sync-dot'), txt = document.getElementById('sync-text');
@@ -290,7 +289,6 @@
         }
     };
 
-    // LOGICA NEGOCIO
     const Inventory = {
         render: Utils.debounce(() => {
             const q = document.getElementById('invSearch').value.toUpperCase();
@@ -408,19 +406,12 @@
             const debt = Store.data.deu.filter(d => d.cli === name && (d.tot - d.abono) > 0).reduce((a,b)=>a+(b.tot-b.abono),0);
             if(debt > 0) return Utils.toast("Cliente con deuda activa", "error");
             if(!confirm(`¿Archivar historial de ${name}?`)) return;
-            
-            // Mover historial
             const hItems = Store.data.hist.filter(h => h.cli === name);
             Store.data.archived.push(...hItems);
             Store.data.hist = Store.data.hist.filter(h => h.cli !== name);
-            
-            // Mover deudas pagadas
-            const dItems = Store.data.deu.filter(d => d.cli === name); // Se asume que están pagadas por el check anterior
-            dItems.forEach(d => {
-                Store.data.archived.push({ cli: name, det: `Deuda Liq: ${d.pr}`, tot: d.tot, fv: d.fv, tipo: 'credito', isPago: false });
-            });
+            const dItems = Store.data.deu.filter(d => d.cli === name);
+            dItems.forEach(d => { Store.data.archived.push({ cli: name, det: `Deuda Liq: ${d.pr}`, tot: d.tot, fv: d.fv, tipo: 'credito', isPago: false }); });
             Store.data.deu = Store.data.deu.filter(d => d.cli !== name);
-            
             Store.save(); Clients.renderBase(); Utils.toast("Cliente archivado", "success");
         }
     };
@@ -431,7 +422,6 @@
             const list = document.getElementById('listaArchivos');
             if(!Store.data.archived) Store.data.archived = [];
             const fil = Store.data.archived.filter(x => x.cli.includes(q) || x.det.toUpperCase().includes(q));
-            
             list.innerHTML = fil.length ? fil.map(a => `
                 <div class="p-4 bg-slate-50 rounded-xl mb-2 text-[10px] border border-slate-100">
                     <div class="flex justify-between font-bold text-slate-700"><span>${a.cli}</span><span>${Utils.fDate(a.fv)}</span></div>
